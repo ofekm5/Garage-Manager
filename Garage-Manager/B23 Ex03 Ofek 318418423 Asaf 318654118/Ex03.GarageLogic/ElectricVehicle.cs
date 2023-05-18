@@ -5,10 +5,15 @@ using System.Text;
 
 namespace Ex03.GarageLogic
 {
-    abstract class ElectricVehicle : Vehicle
+    public abstract class ElectricVehicle : Vehicle
     {
-        private float m_MaxAccululatorTime;
-        private float m_CurrentAccululatorTime;
+        protected float m_MaxAccululatorTime;
+        protected float m_CurrentAccululatorTime;
+
+        public ElectricVehicle(string i_ModelName, string i_LicensePlateNumber, int i_NumberOfWheels) :base()
+        {
+
+        }
 
         public float AccumulatorTimeLeft
         {
@@ -34,7 +39,14 @@ namespace Ex03.GarageLogic
 
         public void ChargeAccumulator(float i_HoursToAdd)
         {
-
+            if(m_MaxAccululatorTime < i_HoursToAdd + m_CurrentAccululatorTime || i_HoursToAdd < m_MinEnergyVal)
+            {
+                throw new ValueOutOfRangeException(m_MinEnergyVal, m_MaxAccululatorTime - i_HoursToAdd);
+            }
+            else
+            {
+                m_CurrentAccululatorTime += i_HoursToAdd;
+            }
         }
 
     }
