@@ -31,5 +31,11 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Ex03.GarageLogic\Ex03.GarageLogic.csproj">
+      <Project>{1f7286f7-0aab-454d-86e5-7a9009cbe92f}</Project>
+      <Name>Ex03.GarageLogic</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
