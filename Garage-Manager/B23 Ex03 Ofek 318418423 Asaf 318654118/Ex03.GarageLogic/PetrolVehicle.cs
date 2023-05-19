@@ -55,6 +55,11 @@ namespace Ex03.GarageLogic
             return this.PetrolType;
         }
 
+        public override void AddEnergy(float i_LitersToAdd)
+        {
+            FillTank(i_LitersToAdd);
+        }
+
         public void FillTank(float i_LitersToAdd)
         {
             float sizeAfterFilling = this.CurrentTankInLiter + i_LitersToAdd;
@@ -69,12 +74,12 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public float GetCurrentTankLeft()
+        public override float GetCurrentEnergy()
         {
             return this.CurrentTankInLiter;
         }
 
-        public float GetMaxTank()
+        public override float GetMaxEnergy()
         {
             return this.m_MaxTankInLiter;
         }

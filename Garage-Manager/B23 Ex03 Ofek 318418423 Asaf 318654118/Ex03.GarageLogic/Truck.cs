@@ -10,9 +10,10 @@ namespace Ex03.GarageLogic
         private bool m_ContainHazardMaterials;
         private float m_LoadCapacity;
 
-        public Truck() : base()
+        public Truck(bool i_ContainHazardMaterials, float i_LoadCapacity) : base()
         {
-
+            this.m_ContainHazardMaterials = i_ContainHazardMaterials;
+            this.m_LoadCapacity = i_LoadCapacity;
         }
     }
 }
