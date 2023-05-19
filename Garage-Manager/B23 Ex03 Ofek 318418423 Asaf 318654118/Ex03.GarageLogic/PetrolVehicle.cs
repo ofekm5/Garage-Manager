@@ -74,7 +74,7 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public override float GetCurrentEnergy()
+        public override float GetCurrentEnergyLeft()
         {
             return this.CurrentTankInLiter;
         }

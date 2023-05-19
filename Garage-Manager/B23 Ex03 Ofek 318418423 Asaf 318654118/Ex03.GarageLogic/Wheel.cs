@@ -32,6 +32,10 @@ namespace Ex03.GarageLogic
             {
                 return m_CurrentWheelPressure;
             }
+            set
+            {
+                m_CurrentWheelPressure = value;
+            }
         }
 
         public float MaxWheelPressure
@@ -44,7 +48,16 @@ namespace Ex03.GarageLogic
 
         public void PumpWheel(float i_PressureToAdd)
         {
+            float pressureAfterFilling = this.CurrentWheelPressure + i_PressureToAdd;
 
+            if (pressureAfterFilling > this.MaxWheelPressure)
+            {
+                throw new ValueOutOfRangeException(0, this.MaxWheelPressure - this.CurrentWheelPressure);
+            }
+            else
+            {
+                this.CurrentWheelPressure = pressureAfterFilling;
+            }
         }
     }
 }
