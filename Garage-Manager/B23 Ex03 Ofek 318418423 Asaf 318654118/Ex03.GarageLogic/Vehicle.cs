@@ -5,11 +5,13 @@ using System.Text;
 
 namespace Ex03.GarageLogic
 {
+    //TODO! figure out what to do with it 
     public enum eEnergyType
     {
         Petrol,
         Electric
     }
+
     public abstract class Vehicle
     {
         protected const float m_MinEnergyVal = 0f;
@@ -45,7 +47,7 @@ namespace Ex03.GarageLogic
             m_EnergyLeftPercentage = (i_CurrentEnergyLeft / i_MaxEnergy) * 100f;
         }
 
-        public abstract void AddEnergy(float i_AmountToFill, eEnergyType i_EnergyType);
+        public abstract void AddEnergy(float i_AmountToFill);
 
         public abstract float GetMaxEnergy();
 

@@ -15,13 +15,15 @@ namespace Ex03.GarageLogic
 
     class PetrolVehicle : Vehicle
     {
-        private ePetrolType m_PetrolType;
-        private float m_CurrentTankInLiter;
-        private float m_MaxTankInLiter;
+        protected ePetrolType m_PetrolType;
+        protected float m_CurrentLiterInTank;
+        protected float m_MaxTankInLiter;
 
-        public PetrolVehicle(float i_MaxTankInLiter, ePetrolType i_PetrolType, string i_ModelName, string i_LicensePlateNumber, int i_NumberOfWheels) : base(i_ModelName, i_LicensePlateNumber, i_NumberOfWheels) 
+        public PetrolVehicle(float i_MaxTankInLiter, ePetrolType i_PetrolType, string i_ModelName, string i_LicensePlateNumber, int i_NumberOfWheels, string i_WheelManufactureName,
+            float i_CurrentAirPressure, float i_MaxAirPressure) : base(i_ModelName, i_LicensePlateNumber, i_NumberOfWheels, i_WheelManufactureName,
+            i_CurrentAirPressure, i_MaxAirPressure) 
         {
-            this.m_CurrentTankInLiter = 0;
+            this.m_CurrentLiterInTank = 0;
             this.m_MaxTankInLiter = i_MaxTankInLiter;
             this.m_PetrolType = i_PetrolType;
         }
@@ -42,11 +44,11 @@ namespace Ex03.GarageLogic
         {
             get
             {
-                return this.m_CurrentTankInLiter;
+                return this.m_CurrentLiterInTank;
             }
             set
             {
-                this.m_CurrentTankInLiter = value;
+                this.m_CurrentLiterInTank = value;
             }
         }
 
