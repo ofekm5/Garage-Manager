@@ -47,8 +47,8 @@ namespace Ex03.GarageLogic
 
         public abstract void AddEnergy(float i_AmountToFill, eEnergyType i_EnergyType);
 
-        public abstract void GetMaxEnergy();
+        public abstract float GetMaxEnergy();
 
-        public abstract void GetCurrentEnergyLeft();
+        public abstract float GetCurrentEnergyLeft();
     }
 }
