@@ -63,5 +63,12 @@ namespace Ex03.GarageLogic
             return m_MaxAccumulatorTime;
         }
 
+        public override string ToString()
+        {
+            string msg = base.ToString();
+            msg += string.Format("Max accumulator time: {0} and current accumulator time: {1}", m_MaxAccumulatorTime, m_CurrentAccumulatorTime);
+            return msg;
+        }
+
     }
 }
