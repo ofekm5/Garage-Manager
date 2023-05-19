@@ -41,5 +41,15 @@ namespace Ex03.GarageLogic
                 return m_EngineVolumeInCC;
             }
         }
+
+        public override string ToString()
+        {
+            string msg = base.ToString();
+
+            msg += string.Format("License Type is {0}{1}", m_LicenseType, Environment.NewLine);
+            msg += string.Format("Engine Volume In CC In Tank is {0}{1}", m_EngineVolumeInCC, Environment.NewLine);
+
+            return msg;
+        }
     }
 }

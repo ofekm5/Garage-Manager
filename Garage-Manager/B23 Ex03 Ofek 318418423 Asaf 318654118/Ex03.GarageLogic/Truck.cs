@@ -17,5 +17,15 @@ namespace Ex03.GarageLogic
             this.m_ContainHazardMaterials = i_ContainHazardMaterials;
             this.m_LoadCapacity = i_LoadCapacity;
         }
+
+        public override string ToString()
+        {
+            string msg = base.ToString();
+
+            msg += string.Format("Contain Hazard Materials: {0}{1}", m_ContainHazardMaterials, Environment.NewLine);
+            msg += string.Format("Load Capacity is {0}{1}", m_LoadCapacity, Environment.NewLine);
+
+            return msg;
+        }
     }
 }
