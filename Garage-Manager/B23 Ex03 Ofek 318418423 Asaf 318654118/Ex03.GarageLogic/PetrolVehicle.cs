@@ -13,18 +13,13 @@ namespace Ex03.GarageLogic
         Octan98
     }
 
-    //public class ValueOutOfRangeException : Exception
-    //{
-
-    //}
-
     class PetrolVehicle : Vehicle
     {
         private ePetrolType m_PetrolType;
         private float m_CurrentTankInLiter;
         private float m_MaxTankInLiter;
 
-        public PetrolVehicle(float i_MaxTankInLiter, ePetrolType i_PetrolType)
+        public PetrolVehicle(float i_MaxTankInLiter, ePetrolType i_PetrolType, string i_ModelName, string i_LicensePlateNumber, int i_NumberOfWheels) : base(i_ModelName, i_LicensePlateNumber, i_NumberOfWheels) 
         {
             this.m_CurrentTankInLiter = 0;
             this.m_MaxTankInLiter = i_MaxTankInLiter;
@@ -66,7 +61,7 @@ namespace Ex03.GarageLogic
 
             if (sizeAfterFilling > this.m_MaxTankInLiter)
             {
-                throw new ValueOutOfRangeException();
+                throw new ValueOutOfRangeException(0, this.m_MaxTankInLiter - this.CurrentTankInLiter);
             }
             else
             {

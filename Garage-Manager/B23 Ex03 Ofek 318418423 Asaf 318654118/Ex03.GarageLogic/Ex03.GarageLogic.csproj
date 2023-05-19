@@ -35,6 +35,7 @@
     <Compile Include="ElectricCar.cs" />
     <Compile Include="ElectricVehicle.cs" />
     <Compile Include="PetrolVehicle.cs" />
+    <Compile Include="Truck.cs" />
     <Compile Include="ValueOutOfRangeException.cs" />
     <Compile Include="Vehicle.cs" />
     <Compile Include="Wheel.cs" />
