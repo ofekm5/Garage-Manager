@@ -53,5 +53,11 @@ namespace Ex03.GarageLogic
             }
         }
 
+        public override string ToString()
+        {
+            string msg = base.ToString();
+            msg += string.Format("Total car doors: {0}{1}Car color: {2}{3}", m_TotalDoors, Environment.NewLine, m_Color, Environment.NewLine);
+            return msg;
+        }
     }
 }

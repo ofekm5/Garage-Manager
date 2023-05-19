@@ -64,6 +64,7 @@ namespace Ex03.GarageLogic
                 i++;
             }
 
+            msg += string.Format("{0}", Environment.NewLine); 
             return msg;
         }
 
