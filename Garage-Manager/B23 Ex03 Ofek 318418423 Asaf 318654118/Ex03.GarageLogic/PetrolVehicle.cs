@@ -21,7 +21,7 @@ namespace Ex03.GarageLogic
 
         public PetrolVehicle(float i_MaxTankInLiter, ePetrolType i_PetrolType, string i_ModelName, string i_LicensePlateNumber, int i_NumberOfWheels, string i_WheelManufactureName,
             float i_CurrentAirPressure, float i_MaxAirPressure) : base(i_ModelName, i_LicensePlateNumber, i_NumberOfWheels, i_WheelManufactureName,
-            i_CurrentAirPressure, i_MaxAirPressure) 
+            i_CurrentAirPressure, i_MaxAirPressure)
         {
             this.m_CurrentLiterInTank = 0;
             this.m_MaxTankInLiter = i_MaxTankInLiter;
@@ -84,6 +84,17 @@ namespace Ex03.GarageLogic
         public override float GetMaxEnergy()
         {
             return this.m_MaxTankInLiter;
+        }
+
+        public override string ToString()
+        {
+            string msg = base.ToString();
+
+            msg += string.Format("Petrol Type is {0}{1}", m_PetrolType, Environment.NewLine);
+            msg += string.Format("Current Liter In Tank is {0}{1}", m_CurrentLiterInTank, Environment.NewLine);
+            msg += string.Format("Max Tank In Liter is {0}{1}", m_MaxTankInLiter, Environment.NewLine);
+
+            return msg;
         }
     }
 }
