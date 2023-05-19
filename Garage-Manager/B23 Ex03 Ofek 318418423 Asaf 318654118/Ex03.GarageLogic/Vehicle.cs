@@ -5,11 +5,6 @@ using System.Text;
 
 namespace Ex03.GarageLogic
 {
-    public enum eEnergyType
-    {
-        Petrol,
-        Electric
-    }
     public abstract class Vehicle
     {
         protected const float m_MinEnergyVal = 0f;
@@ -38,6 +33,10 @@ namespace Ex03.GarageLogic
             {
                 return m_EnergyLeftPercentage;
             }
+            set
+            {
+                m_EnergyLeftPercentage = value;
+            }
         }
 
         public void CalculateEnergyPercentageLeft(float i_MaxEnergy, float i_CurrentEnergyLeft)
@@ -45,10 +44,28 @@ namespace Ex03.GarageLogic
             m_EnergyLeftPercentage = (i_CurrentEnergyLeft / i_MaxEnergy) * 100f;
         }
 
-        public abstract void AddEnergy(float i_AmountToFill, eEnergyType i_EnergyType);
+        public abstract void AddEnergy(float i_AmountToFill);
 
         public abstract float GetMaxEnergy();
 
         public abstract float GetCurrentEnergyLeft();
+
+        public override string ToString()
+        {
+            string msg = string.Format("Vehicle model name is {0}.{1}", m_ModelName, Environment.NewLine);
+            msg += string.Format("Vehicle license number is {0}{1}", m_LicenseplateNumber, Environment.NewLine);
+            msg += string.Format("Vehicle number of wheels is {0}{1}", m_NumberOfWheels, Environment.NewLine);
+            int i = 0;
+
+            foreach(Wheel wheel in m_Wheels)
+            {
+                msg += string.Format("Wheel #{0}{1}", i.ToString(), Environment.NewLine);
+                msg += wheel.ToString();
+                i++;
+            }
+
+            return msg;
+        }
+
     }
 }
