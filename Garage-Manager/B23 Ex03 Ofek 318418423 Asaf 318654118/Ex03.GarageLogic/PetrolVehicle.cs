@@ -13,10 +13,10 @@ namespace Ex03.GarageLogic
         Octan98
     }
 
-    public class ValueOutOfRangeException : Exception
-    {
+    //public class ValueOutOfRangeException : Exception
+    //{
 
-    }
+    //}
 
     class PetrolVehicle : Vehicle
     {

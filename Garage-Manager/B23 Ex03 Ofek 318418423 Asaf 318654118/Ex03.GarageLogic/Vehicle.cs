@@ -5,11 +5,19 @@ using System.Text;
 
 namespace Ex03.GarageLogic
 {
-    abstract class Vehicle
+    public abstract class Vehicle
     {
-        private string m_ModelName;
-        private string m_LicenseplateNumber;
-        private float m_EnergyLeftPercentage;
-        private List<Wheel> m_heels;
+        protected const float m_MinEnergyVal = 0.0f;
+        protected string m_ModelName;
+        protected string m_LicenseplateNumber;
+        protected float m_EnergyLeftPercentage;
+        protected List<Wheel> m_Wheels;
+
+        public Vehicle(string i_ModelName, string i_LicensePlateNumber, int i_NumberOfWheels)
+        {
+            m_ModelName = i_ModelName;
+            m_LicenseplateNumber = i_LicensePlateNumber;
+            
+        }
     }
 }
