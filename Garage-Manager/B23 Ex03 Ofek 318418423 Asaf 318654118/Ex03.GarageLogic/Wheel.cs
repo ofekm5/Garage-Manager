@@ -59,5 +59,12 @@ namespace Ex03.GarageLogic
                 this.CurrentWheelPressure = pressureAfterFilling;
             }
         }
+
+        public override string ToString()
+        {
+            string msg = string.Format("Wheel manufacture name: {0}. {1}Wheel current air pressure: {2}. {3}Wheel max air pressure: {4}"
+                , m_ManufactureName, Environment.NewLine, m_CurrentWheelPressure, m_MaxWheelPressure);
+            return msg;
+        }
     }
 }
