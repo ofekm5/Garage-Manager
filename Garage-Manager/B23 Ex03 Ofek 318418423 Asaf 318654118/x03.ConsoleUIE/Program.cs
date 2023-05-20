@@ -9,6 +9,8 @@ namespace x03.ConsoleUIE
     {
         public static void Main()
         {
+            //TODO: need to check vehicle condition in the ui
+            GarageProgram Gp = new GarageProgram();
 
         }
     }
