@@ -17,10 +17,14 @@ namespace Ex03.GarageLogic
     {
         private eLicenseType m_LicenseType;
         private int m_EngineVolumeInCC;
+        private const int k_NumberOfWheels = 2;
+        private const float k_MaxAirPressure = 31f;
+        private const ePetrolType k_PetrolType = ePetrolType.Octan98;
+        private const float i_MaxLiterInTank = 6.4f;
 
-        public PetrolMotorcycle(eLicenseType i_LicenseType, int i_EngineVolumeInCC, float i_MaxTankInLiter, ePetrolType i_PetrolType, string i_ModelName, string i_LicensePlateNumber, int i_NumberOfWheels, string i_WheelManufactureName,
-            float i_CurrentAirPressure, float i_MaxAirPressure, string i_OwnerName, string i_OwnerPhone, float i_CurrentLiterInTank) : base(i_MaxTankInLiter, i_PetrolType, i_ModelName, i_LicensePlateNumber, i_NumberOfWheels,
-                i_WheelManufactureName, i_CurrentAirPressure, i_MaxAirPressure, i_OwnerName, i_OwnerPhone, i_CurrentLiterInTank)
+        public PetrolMotorcycle(eLicenseType i_LicenseType, int i_EngineVolumeInCC, string i_ModelName, string i_LicensePlateNumber, string i_WheelManufactureName,
+            float i_CurrentAirPressure, string i_OwnerName, string i_OwnerPhone, float i_CurrentLiterInTank) : base(i_MaxLiterInTank, k_PetrolType, i_ModelName, i_LicensePlateNumber, k_NumberOfWheels,
+                i_WheelManufactureName, i_CurrentAirPressure, k_MaxAirPressure, i_OwnerName, i_OwnerPhone, i_CurrentLiterInTank)
         {
             m_EngineVolumeInCC = i_EngineVolumeInCC;
             m_LicenseType = i_LicenseType;

@@ -17,14 +17,14 @@ namespace Ex03.GarageLogic
     {
         protected ePetrolType m_PetrolType;
         protected float m_CurrentLiterInTank;
-        protected float m_MaxTankInLiter;
+        protected float m_MaxLiterInTank;
 
         public PetrolVehicle(float i_MaxTankInLiter, ePetrolType i_PetrolType, string i_ModelName, string i_LicensePlateNumber, int i_NumberOfWheels, string i_WheelManufactureName,
             float i_CurrentAirPressure, float i_MaxAirPressure, string i_OwnerName, string i_OwnerPhone, float i_CurrentLiterInTank) : base(i_ModelName, i_LicensePlateNumber, i_NumberOfWheels, i_WheelManufactureName,
             i_CurrentAirPressure, i_MaxAirPressure, i_OwnerName, i_OwnerPhone)
         {
             this.m_CurrentLiterInTank = i_CurrentLiterInTank;
-            this.m_MaxTankInLiter = i_MaxTankInLiter;
+            this.m_MaxLiterInTank = i_MaxTankInLiter;
             this.m_PetrolType = i_PetrolType;
         }
 
@@ -66,9 +66,9 @@ namespace Ex03.GarageLogic
         {
             float sizeAfterFilling = this.CurrentTankInLiter + i_LitersToAdd;
 
-            if (sizeAfterFilling > this.m_MaxTankInLiter)
+            if (sizeAfterFilling > this.m_MaxLiterInTank)
             {
-                throw new ValueOutOfRangeException(0, this.m_MaxTankInLiter - this.CurrentTankInLiter);
+                throw new ValueOutOfRangeException(0, this.m_MaxLiterInTank - this.CurrentTankInLiter);
             }
             else
             {
@@ -83,7 +83,7 @@ namespace Ex03.GarageLogic
 
         public override float GetMaxEnergy()
         {
-            return this.m_MaxTankInLiter;
+            return this.m_MaxLiterInTank;
         }
 
         public override string ToString()
@@ -92,7 +92,7 @@ namespace Ex03.GarageLogic
 
             msg += string.Format("Petrol Type is {0}{1}", m_PetrolType, Environment.NewLine);
             msg += string.Format("Current Liter In Tank is {0}{1}", m_CurrentLiterInTank, Environment.NewLine);
-            msg += string.Format("Max Tank In Liter is {0}{1}", m_MaxTankInLiter, Environment.NewLine);
+            msg += string.Format("Max Tank In Liter is {0}{1}", m_MaxLiterInTank, Environment.NewLine);
 
             return msg;
         }
