@@ -13,9 +13,10 @@ namespace Ex03.GarageLogic
         protected float m_EnergyLeftPercentage;
         protected int m_NumberOfWheels;
         protected Wheel[] m_Wheels;
+        protected Customer m_Customer;
 
         public Vehicle(string i_ModelName, string i_LicensePlateNumber, int i_NumberOfWheels, string i_WheelManufactureName,
-            float i_CurrentAirPressure, float i_MaxAirPressure)
+            float i_CurrentAirPressure, float i_MaxAirPressure, string i_OwnerName, string i_OwnerPhone)
         {
             m_ModelName = i_ModelName;
             m_LicenseplateNumber = i_LicensePlateNumber;
@@ -25,6 +26,7 @@ namespace Ex03.GarageLogic
             {
                 m_Wheels[i] = new Wheel(i_WheelManufactureName, i_CurrentAirPressure, i_MaxAirPressure);
             }
+            m_Customer = new Customer(i_OwnerName, i_OwnerPhone);
         }
 
         public float EnergyLeftPercentage
@@ -52,11 +54,12 @@ namespace Ex03.GarageLogic
 
         public override string ToString()
         {
-            string msg = string.Format("Vehicle model name is {0}.{1}", m_ModelName, Environment.NewLine);
-            msg += string.Format("Vehicle license number is {0}{1}", m_LicenseplateNumber, Environment.NewLine);
-            msg += string.Format("Vehicle number of wheels is {0}{1}", m_NumberOfWheels, Environment.NewLine);
             int i = 0;
-
+            string msg = string.Format("model name is {0}.{1}", m_ModelName, Environment.NewLine);
+            
+            msg += string.Format("license number is {0}{1}", m_LicenseplateNumber, Environment.NewLine);
+            msg += string.Format("number of wheels is {0}{1}", m_NumberOfWheels, Environment.NewLine);
+            msg += m_Customer.ToString();
             foreach(Wheel wheel in m_Wheels)
             {
                 msg += string.Format("Wheel #{0}{1}", i.ToString(), Environment.NewLine);
