@@ -11,9 +11,9 @@ namespace Ex03.GarageLogic
         private int m_EngineVolumeInCC;
 
         public ElectricMotorcycle(string i_ModelName, string i_LicensePlateNumber, int i_NumberOfWheels, string i_WheelManufactureName,
-            float i_CurrentAirPressure, float i_MaxAirPressure, float i_MaxAcumulatorTime, float i_CurrentAccumulatorTime, eLicenseType i_LicenseType)
+            float i_CurrentAirPressure, float i_MaxAirPressure, float i_MaxAcumulatorTime, float i_CurrentAccumulatorTime, eLicenseType i_LicenseType, string i_OwnerName, string i_OwnerPhone)
             : base(i_ModelName, i_LicensePlateNumber, i_NumberOfWheels, i_WheelManufactureName, i_CurrentAirPressure, i_MaxAirPressure,
-                  i_MaxAcumulatorTime, i_CurrentAccumulatorTime)
+                  i_MaxAcumulatorTime, i_CurrentAccumulatorTime, i_OwnerName, i_OwnerPhone)
         {
             m_LicenseType = i_LicenseType;
         }
