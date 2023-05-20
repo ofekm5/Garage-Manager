@@ -31,40 +31,37 @@ namespace Ex03.GarageLogic
 
         public void PumpWheelsToMax(string i_LicensePlateNumber)
         {
-            if (!m_AllVehicles.ContainsKey(i_LicensePlateNumber))
+            Vehicle vehicleFound = getVehicleAccordingToLicensePlate(i_LicensePlateNumber);
+            foreach(Wheel wheel in vehicleFound.AllWheels)
             {
-                throw new ArgumentException("License plate {0} does not appear in the garage.", i_LicensePlateNumber);
-            }
-            else
-            {
-                Vehicle carFound = m_AllVehicles[]
+                wheel.PumpWheelToMax();
             }
         }
 
         public void AddEnergy(float i_AmountToFill, string i_LicensePlateNumber)
         {
-            Vehicle carFound = getVehicleAccordingToLicensePlate(i_LicensePlateNumber);
-            carFound.AddEnergy(i_AmountToFill);           
+            Vehicle vehicleFound = getVehicleAccordingToLicensePlate(i_LicensePlateNumber);
+            vehicleFound.AddEnergy(i_AmountToFill);           
         }
 
         public string PresentVehicleData(string i_LicensePlateNumber)
         {
-
+            
         }
 
         private Vehicle getVehicleAccordingToLicensePlate(string i_LicensePlateNumber)
         {
-            Vehicle carFound = null;
+            Vehicle vehicleFound = null;
             if (!m_AllVehicles.ContainsKey(i_LicensePlateNumber))
             {
                 throw new ArgumentException("License plate {0} does not appear in the garage.", i_LicensePlateNumber);
             }
             else
             {
-                carFound = m_AllVehicles[i_LicensePlateNumber];
+                vehicleFound = m_AllVehicles[i_LicensePlateNumber];
             }
 
-            return carFound;
+            return vehicleFound;
         }
     }
 }
