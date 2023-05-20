@@ -27,7 +27,7 @@ namespace Ex03.GarageLogic
 
             set
             {
-                m_CurrentAccumulatorTime = value; //TODO: do i really need this set method?
+                m_CurrentAccumulatorTime = value;
             }
         }
 

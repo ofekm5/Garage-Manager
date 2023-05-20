@@ -35,31 +35,16 @@ namespace Ex03.GarageLogic
         }
 
         public List<string> GetListOfLicensePlates(eVehicleCondition i_VehicleConditionFilter)
-        {
-            if(i_VehicleConditionFilter != eVehicleCondition.Fixed && i_VehicleConditionFilter != eVehicleCondition.InMaintenance
-                && i_VehicleConditionFilter != eVehicleCondition.PayedFor)
-            {
-                throw new ArgumentException("Invalid vehicle condition");
-            }
-            else
-            {
+        {           
                 var filteredDictionary = m_AllVehicles.Where(pair => pair.Value.CustomerOfVehicle.VehicleCondition == i_VehicleConditionFilter);
                 return filteredDictionary.Select(pair => pair.Key).ToList();
-            }
         }
         
         public void ChangeVehicleCondition(string i_LicensePlateNumber, eVehicleCondition i_NewCondition)
-        {
-            if (i_NewCondition != eVehicleCondition.Fixed && i_NewCondition != eVehicleCondition.InMaintenance
-                && i_NewCondition != eVehicleCondition.PayedFor)
-            {
-                throw new ArgumentException("Invalid vehicle condition");
-            }
-            else
-            {
+        {    
                 Vehicle vehicleFound = getVehicleAccordingToLicensePlate(i_LicensePlateNumber);
-                vehicleFound.CustomerOfVehicle.VehicleCondition = i_NewCondition;
-            }
+
+                vehicleFound.CustomerOfVehicle.VehicleCondition = i_NewCondition;           
         }
 
         public void PumpWheelsToMax(string i_LicensePlateNumber)
