@@ -34,14 +34,32 @@ namespace Ex03.GarageLogic
             m_AllVehicles.Add(i_LicensePlateNumber, newVehicle);
         }
 
-        public List<string> GetListOfLicensePlates(string i_VehicleConditionFilter)
+        public List<string> GetListOfLicensePlates(eVehicleCondition i_VehicleConditionFilter)
         {
-
+            if(i_VehicleConditionFilter != eVehicleCondition.Fixed && i_VehicleConditionFilter != eVehicleCondition.InMaintenance
+                && i_VehicleConditionFilter != eVehicleCondition.PayedFor)
+            {
+                throw new ArgumentException("Invalid vehicle condition");
+            }
+            else
+            {
+                var filteredDictionary = m_AllVehicles.Where(pair => pair.Value.CustomerOfVehicle.VehicleCondition == i_VehicleConditionFilter);
+                return filteredDictionary.Select(pair => pair.Key).ToList();
+            }
         }
         
-        public void ChangeVehicleCondition(string i_LicensePlateNumber, string i_NewCondition)
+        public void ChangeVehicleCondition(string i_LicensePlateNumber, eVehicleCondition i_NewCondition)
         {
-
+            if (i_NewCondition != eVehicleCondition.Fixed && i_NewCondition != eVehicleCondition.InMaintenance
+                && i_NewCondition != eVehicleCondition.PayedFor)
+            {
+                throw new ArgumentException("Invalid vehicle condition");
+            }
+            else
+            {
+                Vehicle vehicleFound = getVehicleAccordingToLicensePlate(i_LicensePlateNumber);
+                vehicleFound.CustomerOfVehicle.VehicleCondition = i_NewCondition;
+            }
         }
 
         public void PumpWheelsToMax(string i_LicensePlateNumber)
@@ -56,12 +74,17 @@ namespace Ex03.GarageLogic
         public void AddEnergy(float i_AmountToFill, string i_LicensePlateNumber)
         {
             Vehicle vehicleFound = getVehicleAccordingToLicensePlate(i_LicensePlateNumber);
+
             vehicleFound.AddEnergy(i_AmountToFill);           
         }
 
-        public string PresentVehicleData(string i_LicensePlateNumber)
+        public string GetVehicleData(string i_LicensePlateNumber)
         {
-            
+            string vehicleDetails = "";
+            Vehicle vehicleFound = getVehicleAccordingToLicensePlate(i_LicensePlateNumber);
+
+            vehicleDetails += vehicleFound.ToString();
+            return vehicleDetails;
         }
 
         private Vehicle getVehicleAccordingToLicensePlate(string i_LicensePlateNumber)
