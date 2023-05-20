@@ -18,13 +18,16 @@ namespace Ex03.GarageLogic
 
         private eCarColor m_Color;
         private int m_TotalDoors;
+        private const int numberOfWheels = 5;
+        private const float maxAirPressure = 33;
+        private const float maxAcumulatorTime = 5.2f;
 
         public ElectricCar(string i_ModelName, string i_LicensePlateNumber, int i_NumberOfWheels, string i_WheelManufactureName,
-            float i_CurrentAirPressure, float i_MaxAirPressure, float i_MaxAcumulatorTime, float i_CurrentAccumulatorTime, eCarColor i_CarColor, int i_TotalDoors, string i_OwnerName, string i_OwnerPhone)
-            : base(i_ModelName, i_LicensePlateNumber, i_NumberOfWheels, i_WheelManufactureName, i_CurrentAirPressure, i_MaxAirPressure, i_MaxAcumulatorTime, i_CurrentAccumulatorTime, i_OwnerName, i_OwnerPhone)
+            float i_CurrentAirPressure, float i_CurrentAccumulatorTime, eCarColor i_CarColor, string i_OwnerName, string i_OwnerPhone)
+            : base(i_ModelName, i_LicensePlateNumber, i_NumberOfWheels, i_WheelManufactureName, i_CurrentAirPressure, maxAirPressure, maxAcumulatorTime, i_CurrentAccumulatorTime, i_OwnerName, i_OwnerPhone)
         {
             m_Color = i_CarColor;
-            m_TotalDoors = i_TotalDoors;
+            m_TotalDoors = totalDoors;
         }
 
         public int Doors
