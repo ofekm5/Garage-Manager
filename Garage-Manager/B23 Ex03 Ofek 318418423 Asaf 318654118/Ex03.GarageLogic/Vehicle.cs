@@ -54,6 +54,14 @@ namespace Ex03.GarageLogic
             }
         }
 
+        public Customer CustomerOfVehicle
+        {
+            get
+            {
+                return m_Customer;
+            }
+        }
+
         public abstract void AddEnergy(float i_AmountToFill);
 
         public abstract float GetMaxEnergy();
