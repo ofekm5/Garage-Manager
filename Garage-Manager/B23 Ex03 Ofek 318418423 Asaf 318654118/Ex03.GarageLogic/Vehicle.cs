@@ -46,6 +46,14 @@ namespace Ex03.GarageLogic
             m_EnergyLeftPercentage = (i_CurrentEnergyLeft / i_MaxEnergy) * 100f;
         }
 
+        public Wheel[] AllWheels
+        {
+            get
+            {
+                return m_Wheels;
+            }
+        }
+
         public abstract void AddEnergy(float i_AmountToFill);
 
         public abstract float GetMaxEnergy();
