@@ -29,7 +29,7 @@ namespace Ex03.GarageLogic
                     newVehicle = initTruck(i_VehicleDetails);
                     break;
                 default:
-                    throw new ArgumentException("invalid vehicle type! use lowercase letters only");
+                    throw new ArgumentException("invalid vehicle type! use lowercase letters only and select from the following: electric car/electric motorcycle/petrol car/petrol motorcycle/truck");
             }
 
             return newVehicle;
