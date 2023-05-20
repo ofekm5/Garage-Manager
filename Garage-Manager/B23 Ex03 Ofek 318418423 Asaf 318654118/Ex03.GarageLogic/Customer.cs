@@ -52,5 +52,12 @@ namespace Ex03.GarageLogic
                 return m_OwnerPhone;
             }
         }
+
+        public override string ToString()
+        {
+            string msg = string.Format("Owner name: {0}{1}Owner phone: {2}{3}Vehicle state in garage: {4}{5}", m_OwnerName,
+                Environment.NewLine, m_OwnerPhone, Environment.NewLine, m_VehicleCondition, Environment.NewLine);
+            return msg;
+        }
     }
 }
