@@ -160,14 +160,39 @@ namespace x03.ConsoleUIE
         private void changeVehicleStatus()
         {
             string licensePlate;
+            int userChoice;
+            eVehicleCondition newCondition = default;
 
             Console.WriteLine("Please provide the vehicle's license plate");
             licensePlate = Console.ReadLine();
             Console.WriteLine("Please choose the new vehicle status from the following" +
-                "{0}1. In maintenance{1}2. Fixed{2}3. Payed for.",Environment.NewLine, Environment.NewLine, Environment.NewLine);
+                "{0}1. In maintenance{1}2. Fixed{2}3. Payed for.",Environment.NewLine, Environment.NewLine, Environment.NewLine);    
+            while(!int.TryParse(Console.ReadLine(), out userChoice) || !(userChoice >= 1 && userChoice <=3))
+            {
+                Console.WriteLine("Invalid choice. Please provide a choice between the abouve mentioned {0}", Environment.NewLine);
+            }
 
-            
-           
+            switch(userChoice)
+            {
+                case 1:
+                    newCondition = eVehicleCondition.InMaintenance;
+                    break;
+                case 2:
+                    newCondition = eVehicleCondition.Fixed;
+                    break;
+                case 3:
+                    newCondition = eVehicleCondition.PayedFor;
+                    break;
+            }
+
+            try
+            {
+                m_GarageManager.ChangeVehicleCondition(licensePlate, newCondition);
+            }
+            catch(Exception exception)
+            {
+                throw new Exception(exception.Message);
+            }
         }
 
         private void pumpAllWheelsToMax()
