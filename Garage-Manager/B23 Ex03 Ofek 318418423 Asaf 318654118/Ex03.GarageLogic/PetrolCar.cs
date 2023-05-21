@@ -27,8 +27,8 @@ namespace Ex03.GarageLogic
         {
             string msg = base.ToString();
 
-            msg += string.Format("Car's color is {0}{1}", m_Color, Environment.NewLine);
-            msg += string.Format("Car's Total Doors is {0}{1}", m_TotalDoors, Environment.NewLine);
+            msg += string.Format("Car's color: {0}{1}", m_Color, Environment.NewLine);
+            msg += string.Format("Car's Total Doors: {0}{1}", m_TotalDoors, Environment.NewLine);
 
             return msg;
         }

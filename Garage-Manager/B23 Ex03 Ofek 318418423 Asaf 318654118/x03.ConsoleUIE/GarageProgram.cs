@@ -109,7 +109,51 @@ namespace x03.ConsoleUIE
 
         private void insertVehicleToGarage()
         {
+            string vehicleType;
+            string licensePlate;
+            List<string> VehicleTypes = m_GarageManager.GetVehicleTypes();
 
+            Console.WriteLine("Please enter the vehicle's License plate");
+            do
+            {
+                licensePlate = Console.ReadLine();
+                if(!(licensePlate.Length > 0 && licensePlate.Length <= 8))
+                {
+                    Console.WriteLine("Invalid license plate! make sure its length is between 1 and 8. Try again");
+                }
+            }
+            while (!(licensePlate.Length>=0 && licensePlate.Length <= 8));
+
+            if(m_GarageManager.IsVehicleInGarage(licensePlate))
+            {
+                Console.WriteLine("Vehicle exists! here is its data:");
+                Console.WriteLine(m_GarageManager.GetVehicleData(licensePlate));
+            }
+            else
+            {
+                Console.WriteLine("Vehicle does not exist");
+                Console.WriteLine("Please enter vehicle type(lowercase only) from the following collection:");
+                foreach(string type in VehicleTypes)
+                {
+                    Console.WriteLine(type);
+                }
+                vehicleType = Console.ReadLine();
+                //init i_VehicleDetails
+                try
+                {
+                    
+                }
+                catch(ArgumentException exception)
+                {
+
+                }
+            }
+            //user enters LP
+            // if exists, output "Vehicle already exists" + its data
+            // if not, enter type of vehicle
+            // for each vehicle, enter its data
+            // single setting for wheels
+            // remember to catch exceptions
         }
 
         private void getListOfLicensePlates()

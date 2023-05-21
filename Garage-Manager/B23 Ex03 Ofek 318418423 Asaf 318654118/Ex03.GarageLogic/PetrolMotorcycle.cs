@@ -50,8 +50,8 @@ namespace Ex03.GarageLogic
         {
             string msg = base.ToString();
 
-            msg += string.Format("License Type is {0}{1}", m_LicenseType, Environment.NewLine);
-            msg += string.Format("Engine Volume In CC In Tank is {0}{1}", m_EngineVolumeInCC, Environment.NewLine);
+            msg += string.Format("License Type: {0}{1}", m_LicenseType, Environment.NewLine);
+            msg += string.Format("Engine Volume[CC] In Tank: {0}{1}", m_EngineVolumeInCC, Environment.NewLine);
 
             return msg;
         }
