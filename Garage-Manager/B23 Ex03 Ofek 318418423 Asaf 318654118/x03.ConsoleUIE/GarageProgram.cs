@@ -8,13 +8,13 @@ namespace x03.ConsoleUIE
 {
     public enum eUserChoice
     {
+        Exit,
         InsertVehicle,
         GetListOfLicensePlates,
         ChangeVehicleStatus,
         PumpWheelsToMax,
         AddEnergy,
-        GetVehicleData,
-        Exit
+        GetVehicleData,        
     }
 
     public class GarageProgram
@@ -53,14 +53,14 @@ namespace x03.ConsoleUIE
                 }
             } while (userChoice != (int)eUserChoice.Exit);
         }
-
+                
         private void presentMenu()
         {
-            string msg = string.Format("1. Insert new vehicle to the garage. {0}2. Get list of license plates {1}", Environment.NewLine, Environment.NewLine);
+            string msg = string.Format("0. Exit. {0}1. Insert new vehicle to the garage {1}", Environment.NewLine, Environment.NewLine);
 
-            msg += string.Format("3. Change vehicle condition.{0}4. Pump all vehicle wheels to max air pressure {1}", Environment.NewLine, Environment.NewLine);
-            msg += string.Format("5. Add energy to vehicle(petrol/electric). {0}6. Get vehicle data {1}", Environment.NewLine, Environment.NewLine);
-            msg += string.Format("7. Exit.{0}", Environment.NewLine);
+            msg += string.Format("2. Get list of license plates.{0}3. Change vehicle condition.{1}", Environment.NewLine, Environment.NewLine);
+            msg += string.Format("4. Pump all vehicle wheels to max air pressure. {0}5. Add energy to vehicle(petrol/electric) {1}", Environment.NewLine, Environment.NewLine);
+            msg += string.Format("6. Get vehicle data.{0}", Environment.NewLine);
         }
 
         private void validateInput(out int io_UserChoice)
@@ -114,9 +114,47 @@ namespace x03.ConsoleUIE
 
         private void getListOfLicensePlates()
         {
+            int userChoice;
+            List<string> allLicensePlates;
+            eVehicleCondition filterBy = default;
+
             Console.WriteLine("Please provide a filter between the following:");
             Console.WriteLine("1. In maintenance.{0}2. Fixed.{1}3. Payed for.{2}4. All");
-            List<string> licensePlates = m_GarageManager.GetListOfLicensePlates()
+            while(!int.TryParse(Console.ReadLine(), out userChoice) || !(userChoice >= 1 && userChoice <= 4))
+            {
+                Console.WriteLine("Invalid choice. Please choose between the following above.");
+            }
+
+            switch(userChoice)
+            {
+                case 1:
+                    filterBy = eVehicleCondition.InMaintenance;
+                    break;
+                case 2:
+                    filterBy = eVehicleCondition.Fixed;
+                    break;
+                case 3:
+                    filterBy = eVehicleCondition.PayedFor;
+                    break;
+                default:
+                    break;
+            }
+
+            if(userChoice == 1 || userChoice == 2 || userChoice == 3)
+            {
+                allLicensePlates = m_GarageManager.GetListOfLicensePlatesWithFilter(filterBy);
+            }
+            else
+            {
+                allLicensePlates = m_GarageManager.GetListOfLicensePlatesWithoutFilter();
+            }
+
+            System.Console.Clear();
+            Console.WriteLine("All license plates: {0}", Environment.NewLine);
+            foreach(string licensePlate in allLicensePlates)
+            {
+                Console.WriteLine("{0}{1}", licensePlate, Environment.NewLine);
+            }        
         }
 
         private void changeVehicleStatus()

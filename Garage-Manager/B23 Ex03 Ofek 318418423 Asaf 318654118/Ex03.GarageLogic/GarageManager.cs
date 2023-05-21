@@ -34,10 +34,15 @@ namespace Ex03.GarageLogic
             m_AllVehicles.Add(i_LicensePlateNumber, newVehicle);
         }
 
-        public List<string> GetListOfLicensePlates(eVehicleCondition i_VehicleConditionFilter)
+        public List<string> GetListOfLicensePlatesWithFilter(eVehicleCondition i_VehicleConditionFilter)
         {           
                 var filteredDictionary = m_AllVehicles.Where(pair => pair.Value.CustomerOfVehicle.VehicleCondition == i_VehicleConditionFilter);
                 return filteredDictionary.Select(pair => pair.Key).ToList();
+        }
+
+        public List<string> GetListOfLicensePlatesWithoutFilter()
+        {
+            return m_AllVehicles.Keys.ToList();
         }
         
         public void ChangeVehicleCondition(string i_LicensePlateNumber, eVehicleCondition i_NewCondition)
