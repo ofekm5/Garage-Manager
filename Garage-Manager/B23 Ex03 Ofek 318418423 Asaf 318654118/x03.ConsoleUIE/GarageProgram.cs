@@ -51,7 +51,6 @@ namespace x03.ConsoleUIE
                 {
                     Console.WriteLine(exception.Message);
                 }
-                
             } while (userChoice != (int)eUserChoice.Exit);
         }
 
