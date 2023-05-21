@@ -10,10 +10,14 @@ namespace Ex03.GarageLogic
     {
         private eCarColor m_Color;
         private int m_TotalDoors;
+        private const int k_NumberOfWheels = 5;
+        private const float k_MaxAirPressure = 33;
+        private const ePetrolType k_PetrolType = ePetrolType.Octan95;
+        private const float k_MaxLiterInTank = 46;
 
-        public PetrolCar(eCarColor i_Color, int i_TotalDoors, float i_MaxTankInLiter, ePetrolType i_PetrolType, string i_ModelName, string i_LicensePlateNumber, int i_NumberOfWheels, string i_WheelManufactureName,
-    float i_CurrentAirPressure, float i_MaxAirPressure, string i_OwnerName, string i_OwnerPhone) : base(i_MaxTankInLiter, i_PetrolType, i_ModelName, i_LicensePlateNumber, i_NumberOfWheels, i_WheelManufactureName,
-    i_CurrentAirPressure, i_MaxAirPressure, i_OwnerName, i_OwnerPhone)
+        public PetrolCar(eCarColor i_Color, int i_TotalDoors, string i_ModelName, string i_LicensePlateNumber, string i_WheelManufactureName, 
+                           float i_CurrentAirPressure, string i_OwnerName, string i_OwnerPhone, float i_CurrentLiterInTank) : 
+                           base(k_MaxLiterInTank, k_PetrolType, i_ModelName, i_LicensePlateNumber, k_NumberOfWheels, i_WheelManufactureName, i_CurrentAirPressure, k_MaxAirPressure, i_OwnerName, i_OwnerPhone, i_CurrentLiterInTank)
         {
             m_Color = i_Color;
             m_TotalDoors = i_TotalDoors;

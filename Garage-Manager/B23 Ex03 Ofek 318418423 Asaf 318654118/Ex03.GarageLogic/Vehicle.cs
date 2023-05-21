@@ -72,20 +72,31 @@ namespace Ex03.GarageLogic
         {
             int i = 0;
             string msg = string.Format("model name is {0}.{1}", m_ModelName, Environment.NewLine);
-            
+
             msg += string.Format("license number is {0}{1}", m_LicenseplateNumber, Environment.NewLine);
             msg += string.Format("number of wheels is {0}{1}", m_NumberOfWheels, Environment.NewLine);
             msg += m_Customer.ToString();
-            foreach(Wheel wheel in m_Wheels)
+            foreach (Wheel wheel in m_Wheels)
             {
                 msg += string.Format("Wheel #{0}{1}", i.ToString(), Environment.NewLine);
                 msg += wheel.ToString();
                 i++;
             }
 
-            msg += string.Format("{0}", Environment.NewLine); 
+            msg += string.Format("{0}", Environment.NewLine);
             return msg;
         }
 
+        public eVehicleCondition CustomerVehicleCondition
+        {
+            get
+            {
+                return m_Customer.VehicleCondition;
+            }
+            set
+            {
+                m_Customer.VehicleCondition = value;
+            }
+        } 
     }
 }

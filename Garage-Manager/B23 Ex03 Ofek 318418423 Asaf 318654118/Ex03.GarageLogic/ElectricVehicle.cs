@@ -11,10 +11,10 @@ namespace Ex03.GarageLogic
         protected float m_CurrentAccumulatorTime;
 
         public ElectricVehicle(string i_ModelName, string i_LicensePlateNumber, int i_NumberOfWheels, string i_WheelManufactureName,
-            float i_CurrentAirPressure, float i_MaxAirPressure, float i_MaxAcumulatorTime, float i_CurrentAccumulatorTime, string i_OwnerName, string i_OwnerPhone)
+            float i_CurrentAirPressure, float i_MaxAirPressure, float i_MaxAccumulatorTime, float i_CurrentAccumulatorTime, string i_OwnerName, string i_OwnerPhone)
             :base(i_ModelName, i_LicensePlateNumber, i_NumberOfWheels, i_WheelManufactureName, i_CurrentAirPressure, i_MaxAirPressure, i_OwnerName, i_OwnerPhone)
         {
-            m_MaxAccumulatorTime = i_MaxAcumulatorTime;
+            m_MaxAccumulatorTime = i_MaxAccumulatorTime;
             m_CurrentAccumulatorTime = i_CurrentAccumulatorTime;
         }
 

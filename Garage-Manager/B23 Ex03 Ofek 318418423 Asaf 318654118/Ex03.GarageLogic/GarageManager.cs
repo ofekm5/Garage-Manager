@@ -8,15 +8,30 @@ namespace Ex03.GarageLogic
     public class GarageManager
     {
         private Dictionary<string, Vehicle> m_AllVehicles;
+        private VehicleCreator m_VehicleCreator;
 
         public GarageManager()
         {
             m_AllVehicles = new Dictionary<string, Vehicle>();
         }
 
-        public void InsertVehicleToGarage(string i_LicensePlateNumber)
+        public bool IsVehicleInGarage(string i_LicensePlateNumber) //todo! the UI will use it before InsertVehicleToGarage() for validation
         {
+            bool isVehicleExists = m_AllVehicles.ContainsKey(i_LicensePlateNumber);
 
+            if(isVehicleExists)
+            {
+                m_AllVehicles[i_LicensePlateNumber].CustomerVehicleCondition = eVehicleCondition.InMaintenance;
+            }
+
+            return isVehicleExists; 
+        }
+
+        public void InsertVehicleToGarage(string i_LicensePlateNumber, Dictionary<string, string> VehicleDetails)
+        {
+            Vehicle newVehicle = m_VehicleCreator.CreateVehicle(VehicleDetails);
+
+            m_AllVehicles.Add(i_LicensePlateNumber, newVehicle);
         }
 
         public List<string> GetListOfLicensePlates(eVehicleCondition i_VehicleConditionFilter)
