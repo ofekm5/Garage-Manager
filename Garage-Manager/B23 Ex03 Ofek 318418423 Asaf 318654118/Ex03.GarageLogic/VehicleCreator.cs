@@ -55,7 +55,21 @@ namespace Ex03.GarageLogic
             {
                 if (attribute.Name.StartsWith("m_"))
                 {
-                    vehicleDetails.Add(attribute.Name);
+                    if(attribute.Name == "m_Wheels")
+                    {
+                        vehicleDetails.Add("m_ManufactureName");
+                        vehicleDetails.Add("m_CurrentWheelPressure");
+                        vehicleDetails.Add("m_MaxWheelPressure");
+                    }
+                    else if (attribute.Name == "m_Customer")
+                    {
+                        vehicleDetails.Add("m_OwnerName");
+                        vehicleDetails.Add("m_OwnerPhone");
+                    }
+                    else
+                    {
+                        vehicleDetails.Add(attribute.Name);
+                    }
                 }
             }
 
