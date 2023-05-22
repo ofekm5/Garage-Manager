@@ -13,6 +13,7 @@ namespace Ex03.GarageLogic
         public GarageManager()
         {
             m_AllVehicles = new Dictionary<string, Vehicle>();
+            m_VehicleCreator = new VehicleCreator();
         }
 
         public bool IsVehicleInGarage(string i_LicensePlateNumber)
