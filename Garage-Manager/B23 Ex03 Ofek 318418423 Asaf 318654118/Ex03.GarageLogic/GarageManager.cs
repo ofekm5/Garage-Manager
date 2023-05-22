@@ -71,9 +71,38 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public void AddEnergy(float i_AmountToFill, string i_LicensePlateNumber)
+        public void AddEnergy(float i_AmountToFill, string i_LicensePlateNumber, ePetrolType petrolTypeProvided = default)
         {
             Vehicle vehicleFound = getVehicleAccordingToLicensePlate(i_LicensePlateNumber);
+
+            if(vehicleFound is PetrolVehicle)
+            {
+                PetrolCar petrolCar = vehicleFound as PetrolCar;
+                PetrolMotorcycle petrolMotorcycle = vehicleFound as PetrolMotorcycle;
+                Truck truck = vehicleFound as Truck;
+
+                if (petrolCar != null)
+                {
+                    if(petrolCar.PetrolType != petrolTypeProvided)
+                    {
+                        throw new ArgumentException("Invalid petrol type. Please try again.");
+                    }
+                }
+                else if(petrolMotorcycle != null)
+                {
+                    if(petrolMotorcycle.PetrolType != petrolTypeProvided)
+                    {
+                        throw new ArgumentException("Invalid petrol type. Please try again.");
+                    }
+                }
+                else if(truck != null)
+                {
+                    if(truck.PetrolType != petrolTypeProvided)
+                    {
+                        throw new ArgumentException("Invalid petrol type. Please try again.");
+                    }
+                }
+            }
 
             vehicleFound.AddEnergy(i_AmountToFill);           
         }
