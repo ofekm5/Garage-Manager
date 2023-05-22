@@ -13,8 +13,9 @@ namespace x03.ConsoleUIE
         GetListOfLicensePlates,
         ChangeVehicleStatus,
         PumpWheelsToMax,
-        AddEnergy,
-        GetVehicleData,        
+        FuelPetrolVehicle,
+        ChargeElectricVehicle,
+        GetVehicleData,
     }
 
     public class GarageProgram
@@ -26,7 +27,7 @@ namespace x03.ConsoleUIE
             int userChoice;
             m_GarageManager = new GarageManager();
 
-            Console.WriteLine("Hello. Welcome to the garage app. Please choose one of the following options:{0}", Environment.NewLine);
+            Console.WriteLine("Hello. Welcome to the garage app. Please choose one of the following options:");
             do
             {
                 presentMenu();
@@ -59,8 +60,8 @@ namespace x03.ConsoleUIE
             string msg = string.Format("0. Exit. {0}1. Insert new vehicle to the garage {1}", Environment.NewLine, Environment.NewLine);
 
             msg += string.Format("2. Get list of license plates.{0}3. Change vehicle condition.{1}", Environment.NewLine, Environment.NewLine);
-            msg += string.Format("4. Pump all vehicle wheels to max air pressure. {0}5. Add energy to vehicle(petrol/electric) {1}", Environment.NewLine, Environment.NewLine);
-            msg += string.Format("6. Get vehicle data.{0}", Environment.NewLine);
+            msg += string.Format("4. Pump all vehicle wheels to max air pressure. {0}5. Fuel petrol vehicle.{1}", Environment.NewLine, Environment.NewLine);
+            msg += string.Format("6. Charge electric vehicle.{0}7. Get vehicle data.{1}", Environment.NewLine);
         }
 
         private void validateInput(out int io_UserChoice)
@@ -92,9 +93,13 @@ namespace x03.ConsoleUIE
                     System.Console.Clear();
                     pumpAllWheelsToMax();
                     break;
-                case eUserChoice.AddEnergy:
+                case eUserChoice.FuelPetrolVehicle:
                     System.Console.Clear();
-                    addEnergy();
+                    fuelPetrolVehicle();
+                    break;
+                case eUserChoice.ChargeElectricVehicle:
+                    System.Console.Clear();
+                    chargeElectricVehicle();
                     break;
                 case eUserChoice.GetVehicleData:
                     System.Console.Clear();
@@ -155,7 +160,7 @@ namespace x03.ConsoleUIE
             {
                 Console.WriteLine("Vehicle does not exist");
                 Console.WriteLine("Please enter vehicle type(lowercase only) from the following collection:");
-                foreach(string type in vehicleTypes)
+                foreach (string type in VehicleTypes)
                 {
                     Console.WriteLine(type);
                 }
@@ -164,6 +169,15 @@ namespace x03.ConsoleUIE
                 vehicleProperties = m_GarageManager.GetPropertiesOfVehicle(vehicleType);
                 vehicleDetails = setVehicleDetails(vehicleProperties);
                 m_GarageManager.InsertVehicleToGarage(vehicleType, licensePlate, vehicleDetails);
+                //init i_VehicleDetails
+                try
+                {
+
+                }
+                catch (ArgumentException exception)
+                {
+
+                }
             }
         }
 
@@ -175,12 +189,12 @@ namespace x03.ConsoleUIE
 
             Console.WriteLine("Please provide a filter between the following:");
             Console.WriteLine("1. In maintenance.{0}2. Fixed.{1}3. Payed for.{2}4. All");
-            while(!int.TryParse(Console.ReadLine(), out userChoice) || !(userChoice >= 1 && userChoice <= 4))
+            while (!int.TryParse(Console.ReadLine(), out userChoice) || !(userChoice >= 1 && userChoice <= 4))
             {
                 Console.WriteLine("Invalid choice. Please choose between the following above.");
             }
 
-            switch(userChoice)
+            switch (userChoice)
             {
                 case 1:
                     filterBy = eVehicleCondition.InMaintenance;
@@ -195,7 +209,7 @@ namespace x03.ConsoleUIE
                     break;
             }
 
-            if(userChoice == 1 || userChoice == 2 || userChoice == 3)
+            if (userChoice == 1 || userChoice == 2 || userChoice == 3)
             {
                 allLicensePlates = m_GarageManager.GetListOfLicensePlatesWithFilter(filterBy);
             }
@@ -205,11 +219,21 @@ namespace x03.ConsoleUIE
             }
 
             System.Console.Clear();
-            Console.WriteLine("All license plates: {0}", Environment.NewLine);
-            foreach(string licensePlate in allLicensePlates)
+            Console.WriteLine("All license plates:");
+            foreach (string licensePlate in allLicensePlates)
             {
-                Console.WriteLine("{0}{1}", licensePlate, Environment.NewLine);
-            }        
+                Console.WriteLine("{0}", licensePlate);
+            }
+        }
+
+        private string getLicensePlateFromUserInput()
+        {
+            string licensePlate;
+
+            Console.WriteLine("Please provide the vehicle's license plate");
+            licensePlate = Console.ReadLine();
+
+            return licensePlate;
         }
 
         private void changeVehicleStatus()
@@ -217,17 +241,16 @@ namespace x03.ConsoleUIE
             string licensePlate;
             int userChoice;
             eVehicleCondition newCondition = default;
+            licensePlate = getLicensePlateFromUserInput();
 
-            Console.WriteLine("Please provide the vehicle's license plate");
-            licensePlate = Console.ReadLine();
             Console.WriteLine("Please choose the new vehicle status from the following" +
-                "{0}1. In maintenance{1}2. Fixed{2}3. Payed for.",Environment.NewLine, Environment.NewLine, Environment.NewLine);    
-            while(!int.TryParse(Console.ReadLine(), out userChoice) || !(userChoice >= 1 && userChoice <=3))
+                "{0}1. In maintenance{1}2. Fixed{2}3. Payed for.", Environment.NewLine, Environment.NewLine, Environment.NewLine);
+            while (!int.TryParse(Console.ReadLine(), out userChoice) || !(userChoice >= 1 && userChoice <= 3))
             {
-                Console.WriteLine("Invalid choice. Please provide a choice between the abouve mentioned {0}", Environment.NewLine);
+                Console.WriteLine("Invalid choice. Please provide a choice between the abouve mentioned");
             }
 
-            switch(userChoice)
+            switch (userChoice)
             {
                 case 1:
                     newCondition = eVehicleCondition.InMaintenance;
@@ -240,29 +263,82 @@ namespace x03.ConsoleUIE
                     break;
             }
 
-            try
-            {
-                m_GarageManager.ChangeVehicleCondition(licensePlate, newCondition);
-            }
-            catch(Exception exception)
-            {
-                throw new Exception(exception.Message);
-            }
+            m_GarageManager.ChangeVehicleCondition(licensePlate, newCondition);
+            //try
+            //{
+            //    m_GarageManager.ChangeVehicleCondition(licensePlate, newCondition);
+            //}
+            //catch (Exception exception)
+            //{
+            //    throw new Exception(exception.Message);
+            //}
         }
 
         private void pumpAllWheelsToMax()
         {
-
+            string licensePlate = getLicensePlateFromUserInput();
+            m_GarageManager.PumpWheelsToMax(licensePlate);
+            Console.WriteLine("All wheels of vehicle with license plate {0} pumped to max", licensePlate);
         }
 
-        private void addEnergy()
+        private void fuelPetrolVehicle()
         {
+            string licensePlate = getLicensePlateFromUserInput();
+            float amountToFill;
+            int petrolTypleByUser;
+            ePetrolType petrolType = default;
 
+            Console.WriteLine("Please enter petrol type:{0}1. Soler.{1}2. Octan95.{2}3. Octan96.{3}4. Octan98", Environment.NewLine, Environment.NewLine, Environment.NewLine, Environment.NewLine);
+            while (!int.TryParse(Console.ReadLine(), out petrolTypleByUser) || !(petrolTypleByUser >= 1 && petrolTypleByUser <= 4))
+            {
+                Console.WriteLine("Invalid petrol type choice. Please choose between the above");
+            }
+
+            switch (petrolTypleByUser)
+            {
+                case 1:
+                    petrolType = ePetrolType.Soler;
+                    break;
+                case 2:
+                    petrolType = ePetrolType.Octan95;
+                    break;
+                case 3:
+                    petrolType = ePetrolType.Octan96;
+                    break;
+                case 4:
+                    petrolType = ePetrolType.Octan98;
+                    break;
+            }
+
+            Console.WriteLine("Please type amount to fill");
+            while (!float.TryParse(Console.ReadLine(), out amountToFill))
+            {
+                Console.WriteLine("Invalid filling format. Needs to be a number. Try again.");
+            }
+
+            m_GarageManager.AddEnergy(amountToFill, licensePlate, petrolType);
+        }
+
+        private void chargeElectricVehicle()
+        {
+            string licensePlate = getLicensePlateFromUserInput();
+            float amountToFill;
+            
+            Console.WriteLine("Please type amount to fill");
+            while (!float.TryParse(Console.ReadLine(), out amountToFill))
+            {
+                Console.WriteLine("Invalid filling format. Needs to be a number. Try again.");
+            }
+
+            m_GarageManager.AddEnergy(amountToFill, licensePlate);
         }
 
         private void getVehicleData()
         {
+            string licensePlate = getLicensePlateFromUserInput();
+            string vehicleData = m_GarageManager.GetVehicleData(licensePlate);
 
+            Console.WriteLine("Vehicle Data: {0}{1}", Environment.NewLine, vehicleData);
         }
     }
 }
