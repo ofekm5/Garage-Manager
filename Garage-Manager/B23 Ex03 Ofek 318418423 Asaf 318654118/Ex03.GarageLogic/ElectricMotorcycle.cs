@@ -15,7 +15,7 @@ namespace Ex03.GarageLogic
 
         public ElectricMotorcycle(string i_ModelName, string i_LicensePlateNumber, string i_WheelManufactureName,
             float i_CurrentAirPressure, float i_CurrentAccumulatorTime, eLicenseType i_LicenseType, string i_OwnerName, string i_OwnerPhone)
-            : base(i_ModelName, i_LicensePlateNumber, k_NumberOfWheels, i_WheelManufactureName, i_CurrentAirPressure, i_MaxAirPressure,
+            : base(i_ModelName, i_LicensePlateNumber, k_NumberOfWheels, i_WheelManufactureName, i_CurrentAirPressure, k_MaxAirPressure,
                   k_MaxAcumulatorTime, i_CurrentAccumulatorTime, i_OwnerName, i_OwnerPhone)
         {
             m_LicenseType = i_LicenseType;

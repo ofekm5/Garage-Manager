@@ -32,6 +32,10 @@ namespace x03.ConsoleUIE
             {
                 presentMenu();
                 validateInput(out userChoice);
+                if(userChoice == 0)
+                {
+                    break;
+                }
                 try
                 {
                     makeProcessAccordingToUserChoice(userChoice);
@@ -61,12 +65,13 @@ namespace x03.ConsoleUIE
 
             msg += string.Format("2. Get list of license plates.{0}3. Change vehicle condition.{1}", Environment.NewLine, Environment.NewLine);
             msg += string.Format("4. Pump all vehicle wheels to max air pressure. {0}5. Fuel petrol vehicle.{1}", Environment.NewLine, Environment.NewLine);
-            msg += string.Format("6. Charge electric vehicle.{0}7. Get vehicle data.{1}", Environment.NewLine);
+            msg += string.Format("6. Charge electric vehicle.{0}7. Get vehicle data.", Environment.NewLine);
+            Console.WriteLine(msg);
         }
 
         private void validateInput(out int io_UserChoice)
         {
-            while (!int.TryParse(Console.ReadLine(), out io_UserChoice) || !(io_UserChoice >= (int)eUserChoice.InsertVehicle && io_UserChoice <= (int)eUserChoice.Exit))
+            while (!int.TryParse(Console.ReadLine(), out io_UserChoice) || !(io_UserChoice >= (int)eUserChoice.Exit && io_UserChoice <= (int)eUserChoice.GetVehicleData))
             {
                 Console.WriteLine("Invalid choice. Please chooce once again.");
             }
@@ -160,7 +165,7 @@ namespace x03.ConsoleUIE
             {
                 Console.WriteLine("Vehicle does not exist");
                 Console.WriteLine("Please enter vehicle type(lowercase only) from the following collection:");
-                foreach (string type in VehicleTypes)
+                foreach (string type in vehicleTypes)
                 {
                     Console.WriteLine(type);
                 }
@@ -169,15 +174,6 @@ namespace x03.ConsoleUIE
                 vehicleProperties = m_GarageManager.GetPropertiesOfVehicle(vehicleType);
                 vehicleDetails = setVehicleDetails(vehicleProperties);
                 m_GarageManager.InsertVehicleToGarage(vehicleType, licensePlate, vehicleDetails);
-                //init i_VehicleDetails
-                try
-                {
-
-                }
-                catch (ArgumentException exception)
-                {
-
-                }
             }
         }
 
