@@ -7,7 +7,7 @@ namespace Ex03.GarageLogic
 {
     public abstract class Vehicle
     {
-        protected const float m_MinEnergyVal = 0f;
+        protected const float k_MinEnergyVal = 0f;
         protected string m_ModelName;
         protected string m_LicenseplateNumber;
         protected float m_EnergyLeftPercentage;

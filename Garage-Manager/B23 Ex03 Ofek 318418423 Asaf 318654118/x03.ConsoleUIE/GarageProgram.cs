@@ -133,13 +133,6 @@ namespace x03.ConsoleUIE
                 vehicleDetails[property] = Console.ReadLine();
             }
 
-            Console.WriteLine("Please enter wheels' Manufacture Name");
-            vehicleDetails["m_ManufactureName"] = Console.ReadLine();
-            Console.WriteLine("Please enter wheels' Current Wheel Pressure");
-            vehicleDetails["m_CurrentWheelPressure"] = Console.ReadLine();
-            Console.WriteLine("Please enter wheels' Max Wheel Pressure");
-            vehicleDetails["m_MaxWheelPressure"] = Console.ReadLine();
-
             return vehicleDetails;
         }
 
