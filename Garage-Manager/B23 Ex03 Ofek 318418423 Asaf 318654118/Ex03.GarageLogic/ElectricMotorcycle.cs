@@ -40,7 +40,8 @@ namespace Ex03.GarageLogic
         public override string ToString()
         {
             string msg = base.ToString();
-            msg += string.Format("License type: {0}, engine volume in CC: {1}{2}", m_LicenseType, m_EngineVolumeInCC,Environment.NewLine);
+            msg += string.Format("License type: {0}{1}", m_LicenseType, Environment.NewLine);
+            msg += string.Format("Engine volume in CC: {0}{1}", m_EngineVolumeInCC, Environment.NewLine);
             return msg;
         }
 

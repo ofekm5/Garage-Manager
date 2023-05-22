@@ -71,10 +71,10 @@ namespace Ex03.GarageLogic
         public override string ToString()
         {
             int i = 0;
-            string msg = string.Format("model name is {0}.{1}", m_ModelName, Environment.NewLine);
+            string msg = string.Format("model name: {0}.{1}", m_ModelName, Environment.NewLine);
 
-            msg += string.Format("license number is {0}{1}", m_LicenseplateNumber, Environment.NewLine);
-            msg += string.Format("number of wheels is {0}{1}", m_NumberOfWheels, Environment.NewLine);
+            msg += string.Format("license number: {0}{1}", m_LicenseplateNumber, Environment.NewLine);
+            msg += string.Format("number of wheels: {0}{1}", m_NumberOfWheels, Environment.NewLine);
             msg += m_Customer.ToString();
             foreach (Wheel wheel in m_Wheels)
             {

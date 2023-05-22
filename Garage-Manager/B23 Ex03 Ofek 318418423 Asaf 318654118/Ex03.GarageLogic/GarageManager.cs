@@ -15,7 +15,7 @@ namespace Ex03.GarageLogic
             m_AllVehicles = new Dictionary<string, Vehicle>();
         }
 
-        public bool IsVehicleInGarage(string i_LicensePlateNumber) //todo! the UI will use it before InsertVehicleToGarage() for validation
+        public bool IsVehicleInGarage(string i_LicensePlateNumber)
         {
             bool isVehicleExists = m_AllVehicles.ContainsKey(i_LicensePlateNumber);
 
@@ -27,9 +27,19 @@ namespace Ex03.GarageLogic
             return isVehicleExists; 
         }
 
-        public void InsertVehicleToGarage(string i_LicensePlateNumber, Dictionary<string, string> VehicleDetails)
+        public List<string> GetVehicleTypes()
         {
-            Vehicle newVehicle = m_VehicleCreator.CreateVehicle(VehicleDetails);
+            return m_VehicleCreator.VehicleTypes;
+        }
+
+        public List<string> GetPropertiesOfVehicle(string i_VehicleType)
+        {
+            return m_VehicleCreator.GetProperitiesNeededForCreation(i_VehicleType);
+        }
+
+        public void InsertVehicleToGarage(string i_VehicleType, string i_LicensePlateNumber, Dictionary<string, string> VehicleDetails)
+        {
+            Vehicle newVehicle = m_VehicleCreator.CreateVehicle(i_VehicleType, VehicleDetails);
 
             m_AllVehicles.Add(i_LicensePlateNumber, newVehicle);
         }
@@ -61,9 +71,38 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public void AddEnergy(float i_AmountToFill, string i_LicensePlateNumber)
+        public void AddEnergy(float i_AmountToFill, string i_LicensePlateNumber, ePetrolType petrolTypeProvided = default)
         {
             Vehicle vehicleFound = getVehicleAccordingToLicensePlate(i_LicensePlateNumber);
+
+            if(vehicleFound is PetrolVehicle)
+            {
+                PetrolCar petrolCar = vehicleFound as PetrolCar;
+                PetrolMotorcycle petrolMotorcycle = vehicleFound as PetrolMotorcycle;
+                Truck truck = vehicleFound as Truck;
+
+                if (petrolCar != null)
+                {
+                    if(petrolCar.PetrolType != petrolTypeProvided)
+                    {
+                        throw new ArgumentException("Invalid petrol type. Please try again.");
+                    }
+                }
+                else if(petrolMotorcycle != null)
+                {
+                    if(petrolMotorcycle.PetrolType != petrolTypeProvided)
+                    {
+                        throw new ArgumentException("Invalid petrol type. Please try again.");
+                    }
+                }
+                else if(truck != null)
+                {
+                    if(truck.PetrolType != petrolTypeProvided)
+                    {
+                        throw new ArgumentException("Invalid petrol type. Please try again.");
+                    }
+                }
+            }
 
             vehicleFound.AddEnergy(i_AmountToFill);           
         }
