@@ -112,12 +112,8 @@ namespace x03.ConsoleUIE
             }
         }
 
-        private void insertVehicleToGarage()
+        private void getLicensePlateFromUser(out string licensePlate)
         {
-            string vehicleType;
-            string licensePlate;
-            List<string> VehicleTypes = m_GarageManager.GetVehicleTypes();
-
             Console.WriteLine("Please enter the vehicle's License plate");
             do
             {
@@ -128,8 +124,41 @@ namespace x03.ConsoleUIE
                 }
             }
             while (!(licensePlate.Length >= 0 && licensePlate.Length <= 8));
+        }
 
-            if (m_GarageManager.IsVehicleInGarage(licensePlate))
+        private Dictionary<string, string> setVehicleDetails(List<string> vehicleProperties)
+        {
+            Dictionary<string, string> vehicleDetails = new Dictionary<string, string>();
+            string parsedProperty;
+
+            foreach (string property in vehicleProperties)
+            {
+                parsedProperty = property.Substring(2); //removing "m_" to make it readable to user
+                Console.WriteLine("Please enter " + parsedProperty);
+                vehicleDetails[property] = Console.ReadLine();
+            }
+
+            Console.WriteLine("Please enter wheels' Manufacture Name");
+            vehicleDetails["m_ManufactureName"] = Console.ReadLine();
+            Console.WriteLine("Please enter wheels' Current Wheel Pressure");
+            vehicleDetails["m_CurrentWheelPressure"] = Console.ReadLine();
+            Console.WriteLine("Please enter wheels' Max Wheel Pressure");
+            vehicleDetails["m_MaxWheelPressure"] = Console.ReadLine();
+
+            return vehicleDetails;
+        }
+
+        private void insertVehicleToGarage()
+        {
+            string vehicleType;
+            string licensePlate;
+            List<string> vehicleTypes = m_GarageManager.GetVehicleTypes();
+            List<string> vehicleProperties;
+            Dictionary<string,string> vehicleDetails;
+
+            getLicensePlateFromUser(out licensePlate);
+
+            if(m_GarageManager.IsVehicleInGarage(licensePlate))
             {
                 Console.WriteLine("Vehicle exists! here is its data:");
                 Console.WriteLine(m_GarageManager.GetVehicleData(licensePlate));
@@ -142,7 +171,11 @@ namespace x03.ConsoleUIE
                 {
                     Console.WriteLine(type);
                 }
+
                 vehicleType = Console.ReadLine();
+                vehicleProperties = m_GarageManager.GetPropertiesOfVehicle(vehicleType);
+                vehicleDetails = setVehicleDetails(vehicleProperties);
+                m_GarageManager.InsertVehicleToGarage(vehicleType, licensePlate, vehicleDetails);
                 //init i_VehicleDetails
                 try
                 {
@@ -153,12 +186,6 @@ namespace x03.ConsoleUIE
 
                 }
             }
-            //user enters LP
-            // if exists, output "Vehicle already exists" + its data
-            // if not, enter type of vehicle
-            // for each vehicle, enter its data
-            // single setting for wheels
-            // remember to catch exceptions
         }
 
         private void getListOfLicensePlates()
@@ -260,28 +287,6 @@ namespace x03.ConsoleUIE
             m_GarageManager.PumpWheelsToMax(licensePlate);
             Console.WriteLine("All wheels of vehicle with license plate {0} pumped to max", licensePlate);
         }
-
-        //private void addEnergy()
-        //{
-        //    string licensePlate = getLicensePlateFromUserInput();
-        //    float amountToAdd;
-
-
-        //    Console.WriteLine("Please enter amount to add");
-        //    while(!float.TryParse(Console.ReadLine(), out amountToAdd))
-        //    {
-        //        throw new FormatException("Wrong format ")
-        //    }
-        //    try
-        //    {
-        //        m_GarageManager.AddEnergy(amountToAdd, licensePlate);
-        //    }
-        //    catch(Exception exception)
-        //    {
-        //        throw new Exception(exception.Message);
-        //    }
-
-        //}
 
         private void fuelPetrolVehicle()
         {
