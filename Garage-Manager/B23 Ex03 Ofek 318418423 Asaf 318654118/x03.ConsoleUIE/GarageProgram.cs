@@ -31,29 +31,29 @@ namespace x03.ConsoleUIE
             {
                 presentMenu();
                 validateInput(out userChoice);
-                try 
+                try
                 {
                     makeProcessAccordingToUserChoice(userChoice);
                 }
-                catch(FormatException formatException)
+                catch (FormatException formatException)
                 {
-                    Console.WriteLine(formatException.Message); 
+                    Console.WriteLine(formatException.Message);
                 }
-                catch(ArgumentException argumentException)
+                catch (ArgumentException argumentException)
                 {
                     Console.WriteLine(argumentException.Message);
                 }
-                catch(ValueOutOfRangeException valOutOfRangeException)
+                catch (ValueOutOfRangeException valOutOfRangeException)
                 {
                     Console.WriteLine(valOutOfRangeException.Message);
                 }
-                catch(Exception exception)
+                catch (Exception exception)
                 {
                     Console.WriteLine(exception.Message);
                 }
             } while (userChoice != (int)eUserChoice.Exit);
         }
-                
+
         private void presentMenu()
         {
             string msg = string.Format("0. Exit. {0}1. Insert new vehicle to the garage {1}", Environment.NewLine, Environment.NewLine);
@@ -98,7 +98,7 @@ namespace x03.ConsoleUIE
                     break;
                 case eUserChoice.GetVehicleData:
                     System.Console.Clear();
-                    getVehicleData();                   
+                    getVehicleData();
                     break;
                 case eUserChoice.Exit:
                     System.Console.Clear();
@@ -107,22 +107,51 @@ namespace x03.ConsoleUIE
             }
         }
 
-        private void insertVehicleToGarage()
+        private void getLicensePlateFromUser(out string licensePlate)
         {
-            string vehicleType;
-            string licensePlate;
-            List<string> VehicleTypes = m_GarageManager.GetVehicleTypes();
-
             Console.WriteLine("Please enter the vehicle's License plate");
             do
             {
                 licensePlate = Console.ReadLine();
-                if(!(licensePlate.Length > 0 && licensePlate.Length <= 8))
+                if (!(licensePlate.Length > 0 && licensePlate.Length <= 8))
                 {
                     Console.WriteLine("Invalid license plate! make sure its length is between 1 and 8. Try again");
                 }
             }
-            while (!(licensePlate.Length>=0 && licensePlate.Length <= 8));
+            while (!(licensePlate.Length >= 0 && licensePlate.Length <= 8));
+        }
+
+        private Dictionary<string, string> setVehicleDetails(List<string> vehicleProperties)
+        {
+            Dictionary<string, string> vehicleDetails = new Dictionary<string, string>();
+            string parsedProperty;
+
+            foreach (string property in vehicleProperties)
+            {
+                parsedProperty = property.Substring(2); //removing "m_" to make it readable to user
+                Console.WriteLine("Please enter " + parsedProperty);
+                vehicleDetails[property] = Console.ReadLine();
+            }
+
+            Console.WriteLine("Please enter wheels' Manufacture Name");
+            vehicleDetails["m_ManufactureName"] = Console.ReadLine();
+            Console.WriteLine("Please enter wheels' Current Wheel Pressure");
+            vehicleDetails["m_CurrentWheelPressure"] = Console.ReadLine();
+            Console.WriteLine("Please enter wheels' Max Wheel Pressure");
+            vehicleDetails["m_MaxWheelPressure"] = Console.ReadLine();
+
+            return vehicleDetails;
+        }
+
+        private void insertVehicleToGarage()
+        {
+            string vehicleType;
+            string licensePlate;
+            List<string> vehicleTypes = m_GarageManager.GetVehicleTypes();
+            List<string> vehicleProperties;
+            Dictionary<string,string> vehicleDetails;
+
+            getLicensePlateFromUser(out licensePlate);
 
             if(m_GarageManager.IsVehicleInGarage(licensePlate))
             {
@@ -133,27 +162,16 @@ namespace x03.ConsoleUIE
             {
                 Console.WriteLine("Vehicle does not exist");
                 Console.WriteLine("Please enter vehicle type(lowercase only) from the following collection:");
-                foreach(string type in VehicleTypes)
+                foreach(string type in vehicleTypes)
                 {
                     Console.WriteLine(type);
                 }
-                vehicleType = Console.ReadLine();
-                //init i_VehicleDetails
-                try
-                {
-                    
-                }
-                catch(ArgumentException exception)
-                {
 
-                }
+                vehicleType = Console.ReadLine();
+                vehicleProperties = m_GarageManager.GetPropertiesOfVehicle(vehicleType);
+                vehicleDetails = setVehicleDetails(vehicleProperties);
+                m_GarageManager.InsertVehicleToGarage(vehicleType, licensePlate, vehicleDetails);
             }
-            //user enters LP
-            // if exists, output "Vehicle already exists" + its data
-            // if not, enter type of vehicle
-            // for each vehicle, enter its data
-            // single setting for wheels
-            // remember to catch exceptions
         }
 
         private void getListOfLicensePlates()

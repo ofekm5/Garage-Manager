@@ -83,8 +83,8 @@ namespace Ex03.GarageLogic
                 case "truck":
                     newVehicle = initTruck(i_VehicleDetails);
                     break;
-                //default:
-                //    throw new ArgumentException("invalid vehicle type! use lowercase letters only");
+                default:
+                    throw new ArgumentException("invalid vehicle type! use lowercase letters only");
             }
 
             return newVehicle;
