@@ -8,14 +8,14 @@ namespace Ex03.GarageLogic
     public class Wheel
     {
         private string m_ManufactureName;
-        private float m_CurrentWheelPressure;
-        private float m_MaxWheelPressure;
+        private float m_CurrentAirPressure;
+        private float m_MaxAirPressure;
 
-        public Wheel(string i_ManufactureName, float i_CurrentWheelPressure, float i_MaxWheelPressure)
+        public Wheel(string i_ManufactureName, float i_CurrentAirPressure, float i_MaxAirPressure)
         {
             m_ManufactureName = i_ManufactureName;
-            m_CurrentWheelPressure = i_CurrentWheelPressure;
-            m_MaxWheelPressure = i_MaxWheelPressure;
+            m_CurrentAirPressure = i_CurrentAirPressure;
+            m_MaxAirPressure = i_MaxAirPressure;
         }
 
         public string ManufactureName
@@ -26,51 +26,51 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public float CurrentWheelPressure
+        public float CurrentAirPressure
         {
             get
             {
-                return m_CurrentWheelPressure;
+                return m_CurrentAirPressure;
             }
             set
             {
-                m_CurrentWheelPressure = value;
+                m_CurrentAirPressure = value;
             }
         }
 
-        public float MaxWheelPressure
+        public float MaxAirPressure
         {
             get
             {
-                return m_MaxWheelPressure;
+                return m_MaxAirPressure;
             }
         }
 
         public void PumpWheel(float i_PressureToAdd)
         {
-            float pressureAfterFilling = this.CurrentWheelPressure + i_PressureToAdd;
+            float pressureAfterFilling = this.CurrentAirPressure + i_PressureToAdd;
 
-            if (pressureAfterFilling > this.MaxWheelPressure)
+            if (pressureAfterFilling > this.MaxAirPressure)
             {
-                throw new ValueOutOfRangeException(0, this.MaxWheelPressure - this.CurrentWheelPressure);
+                throw new ValueOutOfRangeException(0, this.MaxAirPressure - this.CurrentAirPressure);
             }
             else
             {
-                this.CurrentWheelPressure = pressureAfterFilling;
+                this.CurrentAirPressure = pressureAfterFilling;
             }
         }
 
         public void PumpWheelToMax()
         {
-            m_CurrentWheelPressure = m_MaxWheelPressure;
+            m_CurrentAirPressure = m_MaxAirPressure;
         }
 
         public override string ToString()
         {
             string msg = string.Format("Wheel manufacture name: {0}{1}", m_ManufactureName, Environment.NewLine);
 
-            msg += string.Format("Wheel current air pressure: {0}{1}", m_CurrentWheelPressure, Environment.NewLine);
-            msg += string.Format("Wheel max air pressure: {0}{1}", m_MaxWheelPressure, Environment.NewLine);
+            msg += string.Format("Wheel current air pressure: {0}{1}", m_CurrentAirPressure, Environment.NewLine);
+            msg += string.Format("Wheel max air pressure: {0}{1}", m_MaxAirPressure, Environment.NewLine);
             return msg;
         }
     }

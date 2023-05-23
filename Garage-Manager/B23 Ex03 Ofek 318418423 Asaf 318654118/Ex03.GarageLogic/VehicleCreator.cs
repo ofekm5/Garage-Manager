@@ -27,7 +27,6 @@ namespace Ex03.GarageLogic
         {
             List<string> vehicleDetails = new List<string>();
             Type vehicleType;
-            FieldInfo[] fields;
 
             switch (i_VehicleType)
             {
@@ -50,30 +49,59 @@ namespace Ex03.GarageLogic
                     throw new ArgumentException("invalid vehicle type! use lowercase letters only");
             }
 
-            fields = vehicleType.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+            getWantedFieldsOfClass(vehicleDetails, vehicleType);
+
+            return vehicleDetails;
+        }
+
+        private void getWantedFieldsOfClass(List<string> o_VehicleDetails, Type i_VehicleType)
+        {
+            FieldInfo[] fields;
+            List<string> consts = new List<string>();
+
+            fields = i_VehicleType.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
             foreach (FieldInfo attribute in fields)
             {
-                if (attribute.Name.StartsWith("m_"))
+                if (attribute.Name.StartsWith("m_") && attribute.Name != "m_EnergyLeftPercentage")
                 {
-                    if(attribute.Name == "m_Wheels")
+                    if (attribute.FieldType.IsValueType)
                     {
-                        vehicleDetails.Add("m_ManufactureName");
-                        vehicleDetails.Add("m_CurrentWheelPressure");
-                        vehicleDetails.Add("m_MaxWheelPressure");
+                        o_VehicleDetails.Add(attribute.Name);
                     }
-                    else if (attribute.Name == "m_Customer")
+                    else // attribute is a composition
                     {
-                        vehicleDetails.Add("m_OwnerName");
-                        vehicleDetails.Add("m_OwnerPhone");
+                        if (attribute.Name == "m_Wheels")
+                        {
+                            o_VehicleDetails.Add("m_WheelManufactureName");
+                            o_VehicleDetails.Add("m_CurrentAirPressure");
+                            o_VehicleDetails.Add("m_MaxAirPressure");
+                        }
+                        else if (attribute.Name == "m_Customer")
+                        {
+                            o_VehicleDetails.Add("m_OwnerName");
+                            o_VehicleDetails.Add("m_OwnerPhone");
+                        }
+                        else
+                        {
+                            o_VehicleDetails.Add(attribute.Name);
+                        }
                     }
-                    else
-                    {
-                        vehicleDetails.Add(attribute.Name);
-                    }
+                }
+                else if(attribute.Name.StartsWith("k_"))
+                {
+                    consts.Add(attribute.Name);
                 }
             }
 
-            return vehicleDetails;
+            foreach (string classConst in consts) // removing members that will be initiallized with consts
+            {
+                string memberToRemove;
+                char[] memberChars = classConst.ToCharArray();
+
+                memberChars[0] = 'm';
+                memberToRemove = new string(memberChars);
+                o_VehicleDetails.Remove(memberToRemove);
+            } 
         }
 
         public Vehicle CreateVehicle(string i_VehicleType, Dictionary<string, string> i_VehicleDetails)
@@ -111,17 +139,17 @@ namespace Ex03.GarageLogic
             eLicenseType licenseType;
             int engineVolumeInCC;
             float currentAirPressure;
-            float currentLiterInTank;
+            float CurrentTankInLiter;
 
-            validatePetrolMotorcycleInfoFromUser(i_VehicleDetails, out licenseType, out engineVolumeInCC, out currentAirPressure, out currentLiterInTank);
-            petrolMotorcycle = new PetrolMotorcycle(licenseType, engineVolumeInCC, i_VehicleDetails["m_ModelName"], i_VehicleDetails["m_LicensePlateNumber"],
+            validatePetrolMotorcycleInfoFromUser(i_VehicleDetails, out licenseType, out engineVolumeInCC, out currentAirPressure, out CurrentTankInLiter);
+            petrolMotorcycle = new PetrolMotorcycle(licenseType, engineVolumeInCC, i_VehicleDetails["m_ModelName"], i_VehicleDetails["m_LicenseplateNumber"],
                 i_VehicleDetails["m_WheelManufactureName"], currentAirPressure, i_VehicleDetails["m_OwnerName"],
-                i_VehicleDetails["m_OwnerPhone"], currentLiterInTank);
+                i_VehicleDetails["m_OwnerPhone"], CurrentTankInLiter);
 
             return petrolMotorcycle;
         }
 
-        private void validatePetrolMotorcycleInfoFromUser(Dictionary<string, string> i_VehicleDetails, out eLicenseType o_LicenseType, out int o_EngineVolumeInCC, out float o_CurrentAirPressure, out float o_CurrentLiterInTank)
+        private void validatePetrolMotorcycleInfoFromUser(Dictionary<string, string> i_VehicleDetails, out eLicenseType o_LicenseType, out int o_EngineVolumeInCC, out float o_CurrentAirPressure, out float o_CurrentTankInLiter)
         {
             validateMotorcycleInfoFromUser(i_VehicleDetails, out o_LicenseType);
             if (!float.TryParse(i_VehicleDetails["m_CurrentAirPressure"], out o_CurrentAirPressure))
@@ -129,7 +157,7 @@ namespace Ex03.GarageLogic
                 throw new FormatException("Current Air pressure time cannot be parsed! please use a valid number");
             }
 
-            if (!float.TryParse(i_VehicleDetails["m_CurrentLiterInTank"], out o_CurrentLiterInTank))
+            if (!float.TryParse(i_VehicleDetails["m_CurrentTankInLiter"], out o_CurrentTankInLiter))
             {
                 throw new FormatException("Current liter in tank cannot be parsed! please use a valid number");
             }
@@ -148,7 +176,7 @@ namespace Ex03.GarageLogic
             eLicenseType licenseType;
 
             validateElectricMotorcycleInfoFromUser(i_VehicleDetails, out currentAirPressure, out currentAccumulatorTime, out licenseType);
-            electricMotorcycle = new ElectricMotorcycle(i_VehicleDetails["m_ModelName"], i_VehicleDetails["m_LicensePlateNumber"], i_VehicleDetails["m_WheelManufactureName"],
+            electricMotorcycle = new ElectricMotorcycle(i_VehicleDetails["m_ModelName"], i_VehicleDetails["m_LicenseplateNumber"], i_VehicleDetails["m_WheelManufactureName"],
                 currentAirPressure, currentAccumulatorTime, licenseType, i_VehicleDetails["m_OwnerName"], i_VehicleDetails["m_OwnerPhone"]);
 
             return electricMotorcycle;
@@ -198,7 +226,7 @@ namespace Ex03.GarageLogic
             float currentAccumulatorTime;
 
             validateElectricCarInfoFromUser(i_VehicleDetails, out carColor, out totalDoors, out currentAirPressure, out currentAccumulatorTime);
-            newElectricCar = new ElectricCar(i_VehicleDetails["m_ModelName"], i_VehicleDetails["m_LicensePlateNumber"], totalDoors, i_VehicleDetails["m_WheelManufactureName"], 
+            newElectricCar = new ElectricCar(i_VehicleDetails["m_ModelName"], i_VehicleDetails["m_LicenseplateNumber"], totalDoors, i_VehicleDetails["m_WheelManufactureName"], 
                 currentAirPressure, currentAccumulatorTime, carColor, i_VehicleDetails["m_OwnerName"], i_VehicleDetails["m_OwnerPhone"]);
 
             return newElectricCar;
@@ -217,7 +245,7 @@ namespace Ex03.GarageLogic
         private void validateCarInfoFromUser(Dictionary<string, string> i_VehicleDetails, out eCarColor o_CarColor, 
             out int o_TotalDoors, out float o_CurrentAirPressure)
         {
-            switch (i_VehicleDetails["m_CarColor"])
+            switch (i_VehicleDetails["m_Color"])
             {
                 case "white":
                     o_CarColor = eCarColor.White;
@@ -250,25 +278,25 @@ namespace Ex03.GarageLogic
         {
             Truck newTruck;
             float currentAirPressure;
-            float currentLiterInTank;
+            float CurrentTankInLiter;
             float loadCapacity;
             bool containHazardMaterials;
 
-            validateTruckInfoFromUser(i_VehicleDetails, out containHazardMaterials, out loadCapacity, out currentAirPressure, out currentLiterInTank);
-            newTruck = new Truck(containHazardMaterials, loadCapacity, i_VehicleDetails["m_ModelName"], i_VehicleDetails["m_LicensePlateNumber"],
-                i_VehicleDetails["m_WheelManufactureName"], currentAirPressure, i_VehicleDetails["m_OwnerName"], i_VehicleDetails["m_OwnerPhone"], currentLiterInTank);
+            validateTruckInfoFromUser(i_VehicleDetails, out containHazardMaterials, out loadCapacity, out currentAirPressure, out CurrentTankInLiter);
+            newTruck = new Truck(containHazardMaterials, loadCapacity, i_VehicleDetails["m_ModelName"], i_VehicleDetails["m_LicenseplateNumber"],
+                i_VehicleDetails["m_WheelManufactureName"], currentAirPressure, i_VehicleDetails["m_OwnerName"], i_VehicleDetails["m_OwnerPhone"], CurrentTankInLiter);
 
             return newTruck;
         }
 
-        private void validateTruckInfoFromUser(Dictionary<string, string> i_VehicleDetails, out bool o_ContainHazardMaterials, out float o_LoadCapacity, out float o_CurrentAirPressure, out float o_CurrentLiterInTank)
+        private void validateTruckInfoFromUser(Dictionary<string, string> i_VehicleDetails, out bool o_ContainHazardMaterials, out float o_LoadCapacity, out float o_CurrentAirPressure, out float o_CurrentTankInLiter)
         {
             if (!float.TryParse(i_VehicleDetails["m_CurrentAirPressure"], out o_CurrentAirPressure))
             {
                 throw new FormatException("current air pressure cannot be parsed! please use a valid number");
             }
 
-            if (!float.TryParse(i_VehicleDetails["m_CurrentLiterInTank"], out o_CurrentLiterInTank))
+            if (!float.TryParse(i_VehicleDetails["m_CurrentTankInLiter"], out o_CurrentTankInLiter))
             {
                 throw new FormatException("current liter in tank cannot be parsed! please use a valid number");
             }
@@ -298,19 +326,19 @@ namespace Ex03.GarageLogic
             eCarColor carColor;
             int totalDoors;
             float currentAirPressure;
-            float currentLiterInTank;
+            float CurrentTankInLiter;
 
-            validatePetrolCarInfoFromUser(i_VehicleDetails, out carColor, out totalDoors, out currentAirPressure, out currentLiterInTank);
-            newPetrolCar = new PetrolCar(carColor, totalDoors, i_VehicleDetails["m_ModelName"], i_VehicleDetails["m_LicensePlateNumber"], i_VehicleDetails["m_WheelManufactureName"],
-                currentAirPressure, i_VehicleDetails["m_OwnerName"], i_VehicleDetails["m_OwnerPhone"], currentLiterInTank);
+            validatePetrolCarInfoFromUser(i_VehicleDetails, out carColor, out totalDoors, out currentAirPressure, out CurrentTankInLiter);
+            newPetrolCar = new PetrolCar(carColor, totalDoors, i_VehicleDetails["m_ModelName"], i_VehicleDetails["m_LicenseplateNumber"], i_VehicleDetails["m_WheelManufactureName"],
+                currentAirPressure, i_VehicleDetails["m_OwnerName"], i_VehicleDetails["m_OwnerPhone"], CurrentTankInLiter);
 
             return newPetrolCar;
         }
 
-        private void validatePetrolCarInfoFromUser(Dictionary<string, string> i_VehicleDetails, out eCarColor o_CarColor, out int o_TotalDoors, out float o_CurrentAirPressure, out float o_CurrentLiterInTank)
+        private void validatePetrolCarInfoFromUser(Dictionary<string, string> i_VehicleDetails, out eCarColor o_CarColor, out int o_TotalDoors, out float o_CurrentAirPressure, out float o_CurrentTankInLiter)
         {
             validateCarInfoFromUser(i_VehicleDetails, out o_CarColor, out o_TotalDoors, out o_CurrentAirPressure);
-            if (!float.TryParse(i_VehicleDetails["m_CurrentLiterInTank"], out o_CurrentLiterInTank))
+            if (!float.TryParse(i_VehicleDetails["m_CurrentTankInLiter"], out o_CurrentTankInLiter))
             {
                 throw new FormatException("current liter in tank cannot be parsed! please use a valid number");
             }

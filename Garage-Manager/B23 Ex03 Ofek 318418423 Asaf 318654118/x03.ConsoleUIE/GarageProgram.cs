@@ -77,66 +77,60 @@ namespace x03.ConsoleUIE
             }
         }
 
-        private void makeProcessAccordingToUserChoice(int i_userChoice)
+        private void makeProcessAccordingToUserChoice(int i_UserChoice)
         {
-            eUserChoice userInputInEnum = (eUserChoice)i_userChoice;
+            eUserChoice userInputInEnum = (eUserChoice)i_UserChoice;
+
+            System.Console.Clear();
             switch (userInputInEnum)
             {
                 case eUserChoice.InsertVehicle:
-                    System.Console.Clear();
                     insertVehicleToGarage();
                     break;
                 case eUserChoice.GetListOfLicensePlates:
-                    System.Console.Clear();
                     getListOfLicensePlates();
                     break;
                 case eUserChoice.ChangeVehicleStatus:
-                    System.Console.Clear();
                     changeVehicleStatus();
                     break;
                 case eUserChoice.PumpWheelsToMax:
-                    System.Console.Clear();
                     pumpAllWheelsToMax();
                     break;
                 case eUserChoice.FuelPetrolVehicle:
-                    System.Console.Clear();
                     fuelPetrolVehicle();
                     break;
                 case eUserChoice.ChargeElectricVehicle:
-                    System.Console.Clear();
                     chargeElectricVehicle();
                     break;
                 case eUserChoice.GetVehicleData:
-                    System.Console.Clear();
                     getVehicleData();
                     break;
                 case eUserChoice.Exit:
-                    System.Console.Clear();
                     Console.WriteLine("Goodbye");
                     break;
             }
         }
 
-        private void getLicensePlateFromUser(out string licensePlate)
+        private void getLicensePlateFromUser(out string o_LicensePlate)
         {
             Console.WriteLine("Please enter the vehicle's License plate");
             do
             {
-                licensePlate = Console.ReadLine();
-                if (!(licensePlate.Length > 0 && licensePlate.Length <= 8))
+                o_LicensePlate = Console.ReadLine();
+                if (!(o_LicensePlate.Length > 0 && o_LicensePlate.Length <= 8))
                 {
                     Console.WriteLine("Invalid license plate! make sure its length is between 1 and 8. Try again");
                 }
             }
-            while (!(licensePlate.Length >= 0 && licensePlate.Length <= 8));
+            while (!(o_LicensePlate.Length >= 0 && o_LicensePlate.Length <= 8));
         }
 
-        private Dictionary<string, string> setVehicleDetails(List<string> vehicleProperties)
+        private Dictionary<string, string> setVehicleDetails(List<string> i_VehicleProperties)
         {
             Dictionary<string, string> vehicleDetails = new Dictionary<string, string>();
             string parsedProperty;
 
-            foreach (string property in vehicleProperties)
+            foreach (string property in i_VehicleProperties)
             {
                 parsedProperty = property.Substring(2); //removing "m_" to make it readable to user
                 Console.WriteLine("Please enter " + parsedProperty);
@@ -184,7 +178,7 @@ namespace x03.ConsoleUIE
             eVehicleCondition filterBy = default;
 
             Console.WriteLine("Please provide a filter between the following:");
-            Console.WriteLine("1. In maintenance.{0}2. Fixed.{1}3. Payed for.{2}4. All");
+            Console.WriteLine("1. In maintenance.{0}2. Fixed.{1}3. Payed for.{2}4. All", Environment.NewLine, Environment.NewLine, Environment.NewLine, Environment.NewLine);
             while (!int.TryParse(Console.ReadLine(), out userChoice) || !(userChoice >= 1 && userChoice <= 4))
             {
                 Console.WriteLine("Invalid choice. Please choose between the following above.");
@@ -215,7 +209,7 @@ namespace x03.ConsoleUIE
             }
 
             System.Console.Clear();
-            Console.WriteLine("All license plates:");
+            Console.WriteLine("Requested license plates:");
             foreach (string licensePlate in allLicensePlates)
             {
                 Console.WriteLine("{0}", licensePlate);
