@@ -41,6 +41,16 @@ namespace Ex03.GarageLogic
             }
         }
 
+        public static float GetMaxFuelInTank()
+        {
+            return k_MaxLiterInTank;
+        }
+
+        public static float GetMaxWheelPressure()
+        {
+            return k_MaxAirPressure;
+        }
+
         public int TotalDoors
         {
             get
