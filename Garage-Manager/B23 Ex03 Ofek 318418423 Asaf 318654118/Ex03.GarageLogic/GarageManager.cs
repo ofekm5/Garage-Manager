@@ -72,12 +72,17 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public void AddEnergy(float i_AmountToFill, string i_LicensePlateNumber, ePetrolType petrolTypeProvided = default)
+        public void AddEnergy(bool i_WasPetrolTypeProvided, float i_AmountToFill, string i_LicensePlateNumber, ePetrolType petrolTypeProvided = default)
         {
             Vehicle vehicleFound = getVehicleAccordingToLicensePlate(i_LicensePlateNumber);
 
             if(vehicleFound is PetrolVehicle)
             {
+                if(i_WasPetrolTypeProvided == false)
+                {
+                    throw new ArgumentException("Trying to charge a petrol vehicle with electricity");
+                }
+
                 PetrolCar petrolCar = vehicleFound as PetrolCar;
                 PetrolMotorcycle petrolMotorcycle = vehicleFound as PetrolMotorcycle;
                 Truck truck = vehicleFound as Truck;
@@ -104,6 +109,13 @@ namespace Ex03.GarageLogic
                     }
                 }
             }
+            else
+            {
+                if(i_WasPetrolTypeProvided == true)
+                {
+                    throw new ArgumentException("Trying to fill gas in an electric vehicle");
+                }
+            }
 
             vehicleFound.AddEnergy(i_AmountToFill);           
         }
@@ -122,7 +134,7 @@ namespace Ex03.GarageLogic
             Vehicle vehicleFound = null;
             if (!m_AllVehicles.ContainsKey(i_LicensePlateNumber))
             {
-                throw new ArgumentException("License plate {0} does not appear in the garage.", i_LicensePlateNumber);
+                throw new ArgumentException(string.Format("License plate {0} does not appear in the garage.", i_LicensePlateNumber));
             }
             else
             {

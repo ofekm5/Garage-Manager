@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace Ex03.GarageLogic
 {
-    class VehicleCreator
+    public class VehicleCreator
     {
         private readonly List<string> m_VehicleTypes;
 
@@ -87,7 +87,7 @@ namespace Ex03.GarageLogic
                         }
                     }
                 }
-                else if(attribute.Name.StartsWith("k_"))
+                else if (attribute.Name.StartsWith("k_"))
                 {
                     consts.Add(attribute.Name);
                 }
@@ -101,7 +101,7 @@ namespace Ex03.GarageLogic
                 memberChars[0] = 'm';
                 memberToRemove = new string(memberChars);
                 o_VehicleDetails.Remove(memberToRemove);
-            } 
+            }
         }
 
         public Vehicle CreateVehicle(string i_VehicleType, Dictionary<string, string> i_VehicleDetails)
@@ -166,9 +166,21 @@ namespace Ex03.GarageLogic
             {
                 throw new FormatException("Current liter in tank cannot be parsed! please use a valid number");
             }
+
+            if (!PetrolVehicle.ValidateMaxFuel(o_CurrentTankInLiter, PetrolMotorcycle.GetMaxFuelInTank()))
+            {
+                string errorMsg = string.Format("Current liter in tank is bigger than {0}", PetrolMotorcycle.GetMaxFuelInTank());
+                throw new ArgumentException(errorMsg);
+            }
+
+            if (!PetrolVehicle.ValidateWheelPressure(o_CurrentAirPressure, PetrolMotorcycle.GetMaxWheelPressure()))
+            {
+                string errorMsg = string.Format("Current wheel pressure provided is bigger than {0}", PetrolMotorcycle.GetMaxWheelPressure());
+                throw new ArgumentException(errorMsg);
+            }
         }
 
-        private ElectricMotorcycle initElectricMotorcycle(Dictionary<string, string>  i_VehicleDetails)
+        private ElectricMotorcycle initElectricMotorcycle(Dictionary<string, string> i_VehicleDetails)
         {
             ElectricMotorcycle electricMotorcycle;
             float currentAirPressure;
@@ -194,9 +206,21 @@ namespace Ex03.GarageLogic
             {
                 throw new FormatException("Current Air pressure time cannot be parsed! please use a valid number");
             }
+
+            if (!ElectricVehicle.ValidateMaxAccumulatorTime(o_CurrentAccumulatorTime, ElectricMotorcycle.GetMaxAccumulatorTime()))
+            {
+                string errorMsg = string.Format("Current accumulator time provided is bigger than {0}", ElectricMotorcycle.GetMaxAccumulatorTime());
+                throw new ArgumentException(errorMsg);
+            }
+
+            if (!ElectricVehicle.ValidateWheelPressure(o_CurrentAirPressure, ElectricMotorcycle.GetMaxWheelPressure()))
+            {
+                string errorMsg = string.Format("Current wheel pressure provided is bigger than {0}", ElectricMotorcycle.GetMaxWheelPressure());
+                throw new ArgumentException(errorMsg);
+            }
         }
 
-        private void validateMotorcycleInfoFromUser(Dictionary<string, string>  i_VehicleDetails, out eLicenseType o_LicenseType)
+        private void validateMotorcycleInfoFromUser(Dictionary<string, string> i_VehicleDetails, out eLicenseType o_LicenseType)
         {
             switch (i_VehicleDetails["m_LicenseType"])
             {
@@ -213,7 +237,14 @@ namespace Ex03.GarageLogic
                     o_LicenseType = eLicenseType.B1;
                     break;
                 default:
-                    throw new ArgumentException("invalid license type! choose from the following: AA, A1, A2, A3");
+                    throw new ArgumentException("invalid license type! Choose from the following: AA, A1, A2, A3");
+            }
+
+            int enginevalueParsed;
+
+            if (!int.TryParse(i_VehicleDetails["m_EngineVolumeInCC"], out enginevalueParsed))
+            {
+                throw new ArgumentException("Cannot parse engine volume. Please provide a valid number.");
             }
         }
 
@@ -226,7 +257,7 @@ namespace Ex03.GarageLogic
             float currentAccumulatorTime;
 
             validateElectricCarInfoFromUser(i_VehicleDetails, out carColor, out totalDoors, out currentAirPressure, out currentAccumulatorTime);
-            newElectricCar = new ElectricCar(i_VehicleDetails["m_ModelName"], i_VehicleDetails["m_LicenseplateNumber"], totalDoors, i_VehicleDetails["m_WheelManufactureName"], 
+            newElectricCar = new ElectricCar(i_VehicleDetails["m_ModelName"], i_VehicleDetails["m_LicenseplateNumber"], totalDoors, i_VehicleDetails["m_WheelManufactureName"],
                 currentAirPressure, currentAccumulatorTime, carColor, i_VehicleDetails["m_OwnerName"], i_VehicleDetails["m_OwnerPhone"]);
 
             return newElectricCar;
@@ -240,9 +271,21 @@ namespace Ex03.GarageLogic
             {
                 throw new FormatException("Current accumulator time cannot be parsed! please use a valid number");
             }
+
+            if (!ElectricVehicle.ValidateMaxAccumulatorTime(o_CurrentAccumulatorTime, ElectricCar.GetMaxAccumulatorTime()))
+            {
+                string errorMsg = string.Format("Current accumulator time provided is bigger than {0}", ElectricCar.GetMaxAccumulatorTime());
+                throw new ArgumentException(errorMsg);
+            }
+
+            if (!ElectricVehicle.ValidateWheelPressure(o_CurrentAirPressure, ElectricCar.GetMaxWheelPressure()))
+            {
+                string errorMsg = string.Format("Current wheel pressure provided is bigger than {0}", ElectricCar.GetMaxWheelPressure());
+                throw new ArgumentException(errorMsg);
+            }
         }
 
-        private void validateCarInfoFromUser(Dictionary<string, string> i_VehicleDetails, out eCarColor o_CarColor, 
+        private void validateCarInfoFromUser(Dictionary<string, string> i_VehicleDetails, out eCarColor o_CarColor,
             out int o_TotalDoors, out float o_CurrentAirPressure)
         {
             switch (i_VehicleDetails["m_Color"])
@@ -271,6 +314,11 @@ namespace Ex03.GarageLogic
             if (!float.TryParse(i_VehicleDetails["m_CurrentAirPressure"], out o_CurrentAirPressure))
             {
                 throw new FormatException("current air pressure cannot be parsed! please use a valid number");
+            }
+
+            if(o_TotalDoors != 2 && o_TotalDoors != 3 && o_TotalDoors != 4 && o_TotalDoors != 5)
+            {
+                throw new ArgumentException("Invalid number of doors. Needs to be 2/3/4/5");
             }
         }
 
@@ -306,11 +354,23 @@ namespace Ex03.GarageLogic
                 throw new FormatException("current liter in tank cannot be parsed! please use a valid number");
             }
 
+            if (!PetrolVehicle.ValidateMaxFuel(o_CurrentTankInLiter, Truck.GetMaxFuel()))
+            {
+                string errorMsg = string.Format("Current fuel in tank is bigger than {0}", Truck.GetMaxFuel());
+                throw new ArgumentException(errorMsg);
+            }
+
+            if (!PetrolVehicle.ValidateWheelPressure(o_CurrentAirPressure, Truck.GetMaxAirPressure()))
+            {
+                string errorMsg = string.Format("Current wheel pressure is bigger than {0}", Truck.GetMaxAirPressure());
+                throw new ArgumentException(errorMsg);
+            }
+
             if (i_VehicleDetails["m_ContainHazardMaterials"] == "true")
             {
                 o_ContainHazardMaterials = true;
             }
-            else if(i_VehicleDetails["m_ContainHazardMaterials"] == "false")
+            else if (i_VehicleDetails["m_ContainHazardMaterials"] == "false")
             {
                 o_ContainHazardMaterials = false;
             }
@@ -341,6 +401,18 @@ namespace Ex03.GarageLogic
             if (!float.TryParse(i_VehicleDetails["m_CurrentTankInLiter"], out o_CurrentTankInLiter))
             {
                 throw new FormatException("current liter in tank cannot be parsed! please use a valid number");
+            }
+
+            if (PetrolVehicle.ValidateMaxFuel(o_CurrentTankInLiter, PetrolCar.GetMaxFuelInTank()))
+            {
+                string errorMsg = string.Format("Current liter in tank is bigger than {0}", PetrolCar.GetMaxFuelInTank());
+                throw new ArgumentException(errorMsg);
+            }
+
+            if (PetrolVehicle.ValidateWheelPressure(o_CurrentAirPressure, PetrolCar.GetMaxWheelPressure()))
+            {
+                string errorMsg = string.Format("Current wheel pressure is bigger than {0}", PetrolCar.GetMaxWheelPressure());
+                throw new ArgumentException(errorMsg);
             }
         }
     }

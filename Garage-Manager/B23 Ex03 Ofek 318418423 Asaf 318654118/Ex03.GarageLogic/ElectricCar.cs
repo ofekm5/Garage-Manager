@@ -56,6 +56,21 @@ namespace Ex03.GarageLogic
             }
         }
 
+        public static bool ValidateWheelPressure(float i_CurrWheelPressure)
+        {
+            return k_MaxAirPressure > i_CurrWheelPressure;
+        }
+
+        public static float GetMaxWheelPressure()
+        {
+            return k_MaxAirPressure;
+        }
+
+        public static float GetMaxAccumulatorTime()
+        {
+            return k_MaxAccumulatorTime;
+        }
+
         public override string ToString()
         {
             string msg = base.ToString();

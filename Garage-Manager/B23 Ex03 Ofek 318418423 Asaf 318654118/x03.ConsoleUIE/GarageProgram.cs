@@ -133,11 +133,40 @@ namespace x03.ConsoleUIE
             foreach (string property in i_VehicleProperties)
             {
                 parsedProperty = property.Substring(2); //removing "m_" to make it readable to user
-                Console.WriteLine("Please enter " + parsedProperty);
+                string spacedString = insertSpaces(parsedProperty);
+                Console.WriteLine("Please enter " + spacedString);
                 vehicleDetails[property] = Console.ReadLine();
             }
 
             return vehicleDetails;
+        }
+
+        private string insertSpaces(string i_input)
+        {
+            StringBuilder builder = new StringBuilder();
+            int i = 0;
+
+            builder.Append(i_input[0]);
+            foreach(char value in i_input)
+            {
+                if(i == 0)
+                {
+                    i++;
+                    continue;
+                }
+
+                if(char.IsUpper(value))
+                {
+                    builder.Append(' ');
+                    builder.Append(char.ToLower(value));
+                }
+                else
+                {
+                    builder.Append(value);
+                }
+            }
+            
+            return builder.ToString();
         }
 
         private void insertVehicleToGarage()
@@ -254,14 +283,6 @@ namespace x03.ConsoleUIE
             }
 
             m_GarageManager.ChangeVehicleCondition(licensePlate, newCondition);
-            //try
-            //{
-            //    m_GarageManager.ChangeVehicleCondition(licensePlate, newCondition);
-            //}
-            //catch (Exception exception)
-            //{
-            //    throw new Exception(exception.Message);
-            //}
         }
 
         private void pumpAllWheelsToMax()
@@ -306,13 +327,16 @@ namespace x03.ConsoleUIE
                 Console.WriteLine("Invalid filling format. Needs to be a number. Try again.");
             }
 
-            m_GarageManager.AddEnergy(amountToFill, licensePlate, petrolType);
+            bool wasPetrolTypeProvided = true;
+
+            m_GarageManager.AddEnergy(wasPetrolTypeProvided, amountToFill, licensePlate, petrolType);
         }
 
         private void chargeElectricVehicle()
         {
             string licensePlate = getLicensePlateFromUserInput();
             float amountToFill;
+            bool wasPetrolTypeProvided = false;
             
             Console.WriteLine("Please type amount to fill");
             while (!float.TryParse(Console.ReadLine(), out amountToFill))
@@ -320,7 +344,7 @@ namespace x03.ConsoleUIE
                 Console.WriteLine("Invalid filling format. Needs to be a number. Try again.");
             }
 
-            m_GarageManager.AddEnergy(amountToFill, licensePlate);
+            m_GarageManager.AddEnergy(wasPetrolTypeProvided, amountToFill, licensePlate);
         }
 
         private void getVehicleData()

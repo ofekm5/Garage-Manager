@@ -86,6 +86,16 @@ namespace Ex03.GarageLogic
             return this.m_MaxLiterInTank;
         }
 
+        public static bool ValidateMaxFuel(float i_CurrFuelAmount, float i_MaxFuelAmount)
+        {
+            return i_MaxFuelAmount > i_CurrFuelAmount;
+        }
+
+        public static bool ValidateWheelPressure(float i_CurrWheelPressure, float i_MaxWheelPressure)
+        {
+            return i_MaxWheelPressure > i_CurrWheelPressure;
+        }
+
         public override string ToString()
         {
             string msg = base.ToString();

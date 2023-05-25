@@ -63,6 +63,16 @@ namespace Ex03.GarageLogic
             return m_MaxAccumulatorTime;
         }
 
+        public static bool ValidateMaxAccumulatorTime(float i_CurrAccumulatorTime, float i_MaxAccumulatorTime)
+        {
+            return i_MaxAccumulatorTime > i_CurrAccumulatorTime;
+        }
+
+        public static bool ValidateWheelPressure(float i_CurrWheelPressure, float i_MaxWheelPressure)
+        {
+            return i_MaxWheelPressure > i_CurrWheelPressure;
+        }
+
         public override string ToString()
         {
             string msg = base.ToString();

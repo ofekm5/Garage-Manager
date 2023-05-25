@@ -22,6 +22,16 @@ namespace Ex03.GarageLogic
             this.m_LoadCapacity = i_LoadCapacity;
         }
 
+        public static float GetMaxAirPressure()
+        {
+            return k_MaxAirPressure;
+        }
+
+        public static float GetMaxFuel()
+        {
+            return k_MaxLiterInTank;
+        }
+
         public override string ToString()
         {
             string msg = base.ToString();
