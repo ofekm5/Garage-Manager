@@ -68,7 +68,7 @@ namespace Ex03.GarageLogic
 
             if (sizeAfterFilling > this.m_MaxLiterInTank)
             {
-                throw new ValueOutOfRangeException(0, this.m_MaxLiterInTank - this.CurrentTankInLiter);
+                throw new ValueOutOfRangeException(k_MinEnergyVal, this.m_MaxLiterInTank - this.CurrentTankInLiter);
             }
             else
             {

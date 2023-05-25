@@ -11,6 +11,11 @@ namespace Ex03.GarageLogic
             string.Format("The specified value is out of range. It has to be between {0} and {1}", i_MinVal, i_MaxVal))
         {
            
-        }  
+        }
+
+        public ValueOutOfRangeException(string msg) : base(msg)
+        {
+
+        }
     }
 }

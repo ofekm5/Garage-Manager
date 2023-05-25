@@ -11,12 +11,12 @@ namespace Ex03.GarageLogic
         private int m_EngineVolumeInCC;
         private const int k_NumberOfWheels = 2;
         private const float k_MaxAirPressure = 31f;
-        private const float k_MaxAcumulatorTime = 2.6f;
+        private const float k_MaxAccumulatorTime = 2.6f;
 
         public ElectricMotorcycle(string i_ModelName, string i_LicensePlateNumber, string i_WheelManufactureName,
             float i_CurrentAirPressure, float i_CurrentAccumulatorTime, eLicenseType i_LicenseType, string i_OwnerName, string i_OwnerPhone)
             : base(i_ModelName, i_LicensePlateNumber, k_NumberOfWheels, i_WheelManufactureName, i_CurrentAirPressure, k_MaxAirPressure,
-                  k_MaxAcumulatorTime, i_CurrentAccumulatorTime, i_OwnerName, i_OwnerPhone)
+                  k_MaxAccumulatorTime, i_CurrentAccumulatorTime, i_OwnerName, i_OwnerPhone)
         {
             m_LicenseType = i_LicenseType;
         }
@@ -44,7 +44,7 @@ namespace Ex03.GarageLogic
 
         public static float GetMaxAccumulatorTime()
         {
-            return k_MaxAcumulatorTime;
+            return k_MaxAccumulatorTime;
         }
 
         public override string ToString()

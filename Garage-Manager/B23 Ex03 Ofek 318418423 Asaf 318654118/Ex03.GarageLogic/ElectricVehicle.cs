@@ -42,9 +42,9 @@ namespace Ex03.GarageLogic
 
         public override void AddEnergy(float i_HoursToAdd)
         {
-            if (m_MaxAccumulatorTime < i_HoursToAdd + m_CurrentAccumulatorTime || i_HoursToAdd < k_MinEnergyVal)
+            if (i_HoursToAdd < k_MinEnergyVal)
             {
-                throw new ValueOutOfRangeException(k_MinEnergyVal, m_MaxAccumulatorTime - i_HoursToAdd);
+                throw new ValueOutOfRangeException(k_MinEnergyVal, m_MaxAccumulatorTime - m_CurrentAccumulatorTime);
             }
             else
             {

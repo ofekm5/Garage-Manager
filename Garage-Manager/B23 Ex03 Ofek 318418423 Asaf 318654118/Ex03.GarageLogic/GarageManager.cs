@@ -38,11 +38,11 @@ namespace Ex03.GarageLogic
             return m_VehicleCreator.GetProperitiesNeededForCreation(i_VehicleType);
         }
 
-        public void InsertVehicleToGarage(string i_VehicleType, string i_LicensePlateNumber, Dictionary<string, string> VehicleDetails)
+        public void InsertVehicleToGarage(string i_VehicleType, Dictionary<string, string> VehicleDetails)
         {
             Vehicle newVehicle = m_VehicleCreator.CreateVehicle(i_VehicleType, VehicleDetails);
 
-            m_AllVehicles.Add(i_LicensePlateNumber, newVehicle);
+            m_AllVehicles.Add(VehicleDetails["m_LicenseplateNumber"], newVehicle);
         }
 
         public List<string> GetListOfLicensePlatesWithFilter(eVehicleCondition i_VehicleConditionFilter)

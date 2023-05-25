@@ -125,17 +125,24 @@ namespace x03.ConsoleUIE
             while (!(o_LicensePlate.Length >= 0 && o_LicensePlate.Length <= 8));
         }
 
-        private Dictionary<string, string> setVehicleDetails(List<string> i_VehicleProperties)
+        private Dictionary<string, string> setVehicleDetails(List<string> i_VehicleProperties, string i_LicensePlate)
         {
             Dictionary<string, string> vehicleDetails = new Dictionary<string, string>();
             string parsedProperty;
 
             foreach (string property in i_VehicleProperties)
             {
-                parsedProperty = property.Substring(2); //removing "m_" to make it readable to user
-                string spacedString = insertSpaces(parsedProperty);
-                Console.WriteLine("Please enter " + spacedString);
-                vehicleDetails[property] = Console.ReadLine();
+                if (property == "m_LicenseplateNumber")
+                {
+                    vehicleDetails["m_LicenseplateNumber"] = i_LicensePlate;
+                }
+                else
+                {
+                    parsedProperty = property.Substring(2); //removing "m_" to make it readable to user
+                    string spacedString = insertSpaces(parsedProperty);
+                    Console.WriteLine("Please enter " + spacedString);
+                    vehicleDetails[property] = Console.ReadLine();
+                }
             }
 
             return vehicleDetails;
@@ -187,7 +194,8 @@ namespace x03.ConsoleUIE
             else
             {
                 Console.WriteLine("Vehicle does not exist");
-                Console.WriteLine("Please enter vehicle type(lowercase only) from the following collection:");
+                Console.WriteLine("Note: for further vehicle properties, use lowercase letters, except in license type");
+                Console.WriteLine("Please enter vehicle type from the following collection:");
                 foreach (string type in vehicleTypes)
                 {
                     Console.WriteLine(type);
@@ -195,8 +203,8 @@ namespace x03.ConsoleUIE
 
                 vehicleType = Console.ReadLine();
                 vehicleProperties = m_GarageManager.GetPropertiesOfVehicle(vehicleType);
-                vehicleDetails = setVehicleDetails(vehicleProperties);
-                m_GarageManager.InsertVehicleToGarage(vehicleType, licensePlate, vehicleDetails);
+                vehicleDetails = setVehicleDetails(vehicleProperties, licensePlate);
+                m_GarageManager.InsertVehicleToGarage(vehicleType, vehicleDetails);
             }
         }
 
@@ -283,6 +291,7 @@ namespace x03.ConsoleUIE
             }
 
             m_GarageManager.ChangeVehicleCondition(licensePlate, newCondition);
+            Console.WriteLine("Vehicle condition changed!");
         }
 
         private void pumpAllWheelsToMax()

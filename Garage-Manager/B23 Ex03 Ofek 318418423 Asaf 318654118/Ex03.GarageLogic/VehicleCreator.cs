@@ -170,13 +170,13 @@ namespace Ex03.GarageLogic
             if (!PetrolVehicle.ValidateMaxFuel(o_CurrentTankInLiter, PetrolMotorcycle.GetMaxFuelInTank()))
             {
                 string errorMsg = string.Format("Current liter in tank is bigger than {0}", PetrolMotorcycle.GetMaxFuelInTank());
-                throw new ArgumentException(errorMsg);
+                throw new ValueOutOfRangeException(errorMsg);
             }
 
             if (!PetrolVehicle.ValidateWheelPressure(o_CurrentAirPressure, PetrolMotorcycle.GetMaxWheelPressure()))
             {
                 string errorMsg = string.Format("Current wheel pressure provided is bigger than {0}", PetrolMotorcycle.GetMaxWheelPressure());
-                throw new ArgumentException(errorMsg);
+                throw new ValueOutOfRangeException(errorMsg);
             }
         }
 
@@ -210,13 +210,13 @@ namespace Ex03.GarageLogic
             if (!ElectricVehicle.ValidateMaxAccumulatorTime(o_CurrentAccumulatorTime, ElectricMotorcycle.GetMaxAccumulatorTime()))
             {
                 string errorMsg = string.Format("Current accumulator time provided is bigger than {0}", ElectricMotorcycle.GetMaxAccumulatorTime());
-                throw new ArgumentException(errorMsg);
+                throw new ValueOutOfRangeException(errorMsg);
             }
 
             if (!ElectricVehicle.ValidateWheelPressure(o_CurrentAirPressure, ElectricMotorcycle.GetMaxWheelPressure()))
             {
                 string errorMsg = string.Format("Current wheel pressure provided is bigger than {0}", ElectricMotorcycle.GetMaxWheelPressure());
-                throw new ArgumentException(errorMsg);
+                throw new ValueOutOfRangeException(errorMsg);
             }
         }
 
@@ -244,7 +244,7 @@ namespace Ex03.GarageLogic
 
             if (!int.TryParse(i_VehicleDetails["m_EngineVolumeInCC"], out enginevalueParsed))
             {
-                throw new ArgumentException("Cannot parse engine volume. Please provide a valid number.");
+                throw new FormatException("Cannot parse engine volume. Please provide a valid number.");
             }
         }
 
@@ -275,13 +275,13 @@ namespace Ex03.GarageLogic
             if (!ElectricVehicle.ValidateMaxAccumulatorTime(o_CurrentAccumulatorTime, ElectricCar.GetMaxAccumulatorTime()))
             {
                 string errorMsg = string.Format("Current accumulator time provided is bigger than {0}", ElectricCar.GetMaxAccumulatorTime());
-                throw new ArgumentException(errorMsg);
+                throw new ValueOutOfRangeException(errorMsg);
             }
 
             if (!ElectricVehicle.ValidateWheelPressure(o_CurrentAirPressure, ElectricCar.GetMaxWheelPressure()))
             {
                 string errorMsg = string.Format("Current wheel pressure provided is bigger than {0}", ElectricCar.GetMaxWheelPressure());
-                throw new ArgumentException(errorMsg);
+                throw new ValueOutOfRangeException(errorMsg);
             }
         }
 
@@ -318,7 +318,7 @@ namespace Ex03.GarageLogic
 
             if(o_TotalDoors != 2 && o_TotalDoors != 3 && o_TotalDoors != 4 && o_TotalDoors != 5)
             {
-                throw new ArgumentException("Invalid number of doors. Needs to be 2/3/4/5");
+                throw new ValueOutOfRangeException("Invalid number of doors. Needs to be 2/3/4/5");
             }
         }
 
@@ -357,13 +357,13 @@ namespace Ex03.GarageLogic
             if (!PetrolVehicle.ValidateMaxFuel(o_CurrentTankInLiter, Truck.GetMaxFuel()))
             {
                 string errorMsg = string.Format("Current fuel in tank is bigger than {0}", Truck.GetMaxFuel());
-                throw new ArgumentException(errorMsg);
+                throw new ValueOutOfRangeException(errorMsg);
             }
 
             if (!PetrolVehicle.ValidateWheelPressure(o_CurrentAirPressure, Truck.GetMaxAirPressure()))
             {
                 string errorMsg = string.Format("Current wheel pressure is bigger than {0}", Truck.GetMaxAirPressure());
-                throw new ArgumentException(errorMsg);
+                throw new ValueOutOfRangeException(errorMsg);
             }
 
             if (i_VehicleDetails["m_ContainHazardMaterials"] == "true")
@@ -403,16 +403,16 @@ namespace Ex03.GarageLogic
                 throw new FormatException("current liter in tank cannot be parsed! please use a valid number");
             }
 
-            if (PetrolVehicle.ValidateMaxFuel(o_CurrentTankInLiter, PetrolCar.GetMaxFuelInTank()))
+            if (!PetrolVehicle.ValidateMaxFuel(o_CurrentTankInLiter, PetrolCar.GetMaxFuelInTank()))
             {
                 string errorMsg = string.Format("Current liter in tank is bigger than {0}", PetrolCar.GetMaxFuelInTank());
-                throw new ArgumentException(errorMsg);
+                throw new ValueOutOfRangeException(errorMsg);
             }
 
-            if (PetrolVehicle.ValidateWheelPressure(o_CurrentAirPressure, PetrolCar.GetMaxWheelPressure()))
+            if (!PetrolVehicle.ValidateWheelPressure(o_CurrentAirPressure, PetrolCar.GetMaxWheelPressure()))
             {
                 string errorMsg = string.Format("Current wheel pressure is bigger than {0}", PetrolCar.GetMaxWheelPressure());
-                throw new ArgumentException(errorMsg);
+                throw new ValueOutOfRangeException(errorMsg);
             }
         }
     }
